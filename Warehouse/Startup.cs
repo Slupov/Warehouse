@@ -1,18 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Security.Policy;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Warehouse.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Warehouse.Data.Extension;
+using Warehouse.Data.Models;
+using Warehouse.Services.Implementations;
+
+
+using System.ComponentModel.DataAnnotations;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
+using Warehouse.Data.Models;
+
 
 namespace Warehouse
 {
@@ -35,18 +52,51 @@ namespace Warehouse
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddDefaultUI(UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDbContext<WarehouseDbContext>(options =>
+            {
+                options.UseLazyLoadingProxies().UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection"));
+            });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+                {
+                    // Password settings
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 3;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequiredUniqueChars = 2;
+
+                    //user settings
+                    options.User.RequireUniqueEmail = true;
+
+                    //TODO Stoyan Lupov 16 July, 2019 This one should be set to true when email activation is ready
+                    options.SignIn.RequireConfirmedEmail = true;
+                })
+                .AddEntityFrameworkStores<WarehouseDbContext>()
+                .AddDefaultTokenProviders()
+                .AddDefaultUI(UIFramework.Bootstrap4);
+
+            //Add application services.
+            services.AddTransient<IEmailSender, EmailSender>();
+//
+//            services.AddTransient<IHtmlSanitizer, HtmlSanitizer>();
+//            services.AddTransient<IHtmlService, HtmlService>();
+
+            services.AddAutoMapper();
+            services.AddRouting(o => o.LowercaseUrls = true);
+            services.AddSession();
+
+            services.AddMvc(options =>
+            {
+                //adds global antiforgery defense for server data alterations from outside
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -66,12 +116,67 @@ namespace Warehouse
 
             app.UseAuthentication();
 
+            app.UseSession();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            //scope seed db
+            using (var serviceScope =
+                app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<WarehouseDbContext>();
+                context.Database.Migrate();
+
+                CreateRoles(serviceProvider).Wait();
+                context.EnsureSeedData();
+            }
+        }
+
+        private async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            //initializing custom roles 
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+            string[] roleNames = { "Admin", "Owner", "Manager" };
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await roleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                    await roleManager.CreateAsync(new IdentityRole(roleName));
+            }
+
+            //Here you could create a super user who will maintain the web app
+            var username = this.Configuration.GetSection("UserSettings")["AdminUsername"];
+            var email = this.Configuration.GetSection("UserSettings")["AdminEmail"];
+
+            var superUser = new ApplicationUser
+            {
+                UserName = username,
+                Email = email
+            };
+
+            //Ensure you have these values in your appsettings.json or secrets.json file
+            var userPwd = this.Configuration.GetSection("UserSettings")["AdminPassword"];
+            var user = await userManager.FindByNameAsync(
+                this.Configuration.GetSection("UserSettings")["AdminUsername"]);
+
+            var userEmail = this.Configuration.GetSection("UserSettings")["AdminEmail"];
+
+            if (user == null)
+            {
+                var createSuperUser = await userManager.CreateAsync(superUser, userPwd);
+                if (createSuperUser.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(superUser, "Admin");
+                }
+            }
         }
     }
 }
