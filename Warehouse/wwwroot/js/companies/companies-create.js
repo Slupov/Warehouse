@@ -10,8 +10,7 @@ function addCompanyNameFieldText(companyId) {
         type: "POST",
         url: "/api/companies/getname",
         data: "" + companyId, // Send data
-//        dataType: 'text/plain; charset=utf-8', // Expected back from server,
-        contentType: 'application/json', //Send data type
+        contentType: 'application/json' //Send data type
     });
 
     request.done(function(data) {

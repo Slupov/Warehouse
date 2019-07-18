@@ -66,9 +66,7 @@ namespace Warehouse.Web.Areas.Company.Controllers
         {
             if (ModelState.IsValid)
             {
-                //TODO Stoyan Lupov 17 July, 2019 Search the web/API for the company details
-                company.Name = await _merchantRegistry.GetCompanyName(company.IdentificationCode);
-
+                company.Contacts.Company = company;
                 _companies.Add(company);
                 return RedirectToAction(nameof(Index));
             }
