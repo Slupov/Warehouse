@@ -1,4 +1,5 @@
-﻿using SendGrid;
+﻿using Microsoft.Extensions.Configuration;
+using SendGrid;
 using SendGrid.Helpers.Mail;
 
 namespace Warehouse.Services.Implementations
@@ -16,12 +17,11 @@ namespace Warehouse.Services.Implementations
         public static string PlainTextContent { get; set; }
         public static string HtmlContent { get; set; }
 
+        public static string ApiKey { private get; set; }
+
         public static async void  Send()
         {
-            //TODO Stoyan Lupov 20 June, 2019 Extract to user secret
-            var apiKey = "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";
-
-            var client = new SendGridClient(apiKey);
+            var client = new SendGridClient(ApiKey);
 
             var msg = MailHelper.CreateSingleEmail(
                 new EmailAddress(SenderEmail, SenderName),

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Security.Policy;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -16,19 +14,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Warehouse.Data.Extension;
 using Warehouse.Data.Models;
+using Warehouse.Services;
+using Warehouse.Services.ApiServices;
 using Warehouse.Services.Implementations;
-
-
-using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using Warehouse.Data.Models;
 
 
 namespace Warehouse
@@ -72,7 +60,7 @@ namespace Warehouse
                     options.User.RequireUniqueEmail = true;
 
                     //TODO Stoyan Lupov 16 July, 2019 This one should be set to true when email activation is ready
-                    options.SignIn.RequireConfirmedEmail = true;
+                    options.SignIn.RequireConfirmedEmail = false;
                 })
                 .AddEntityFrameworkStores<WarehouseDbContext>()
                 .AddDefaultTokenProviders()
@@ -80,9 +68,17 @@ namespace Warehouse
 
             //Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
-//
-//            services.AddTransient<IHtmlSanitizer, HtmlSanitizer>();
-//            services.AddTransient<IHtmlService, HtmlService>();
+            //
+            //            services.AddTransient<IHtmlSanitizer, HtmlSanitizer>();
+            //            services.AddTransient<IHtmlService, HtmlService>();
+
+            //Data services
+            //TODO Stoyan Lupov 17 July, 2019 MSG
+            services.AddTransient<IGenericDataService<Company>, GenericDataService<Company>>();
+
+            //API services
+            services.AddTransient<IMerchantRegistryService, BivolMerchantRegistryService>();
+
 
             services.AddAutoMapper();
             services.AddRouting(o => o.LowercaseUrls = true);

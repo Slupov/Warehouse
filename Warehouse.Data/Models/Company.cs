@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Warehouse.Data.Models
 {
@@ -12,6 +11,7 @@ namespace Warehouse.Data.Models
 
         public string Name { get; set; }
 
+        [DisplayName("ЕИК/Id")]
         public string IdentificationCode { get; set; }
 
         public virtual Contacts Contacts { get; set; }

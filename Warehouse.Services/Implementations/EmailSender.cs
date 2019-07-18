@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace Warehouse.Services.Implementations
 {
@@ -7,6 +8,13 @@ namespace Warehouse.Services.Implementations
     // For more details see https://go.microsoft.com/fwlink/?LinkID=532713
     public class EmailSender : IEmailSender
     {
+        public IConfiguration Configuration { get; }
+
+        public EmailSender(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         public Task SendEmailAsync(string email, string subject, string message)
         {
             SendGridSender.SenderEmail = "warehouse.stores222@gmail.com";
@@ -21,6 +29,7 @@ namespace Warehouse.Services.Implementations
             SendGridSender.PlainTextContent = "Testing plain text";
             SendGridSender.HtmlContent = "<strong>Testing HTML content of email</strong>" + message;
 
+            SendGridSender.ApiKey = Configuration.GetSection("SendGrid")["ApiKey"];
             SendGridSender.Send();
 
             return Task.CompletedTask;

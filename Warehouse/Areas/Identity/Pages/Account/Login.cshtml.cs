@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Warehouse.Data.Models;
+using Warehouse.Web.Areas.Company.Controllers;
 
 namespace Warehouse.Web.Areas.Identity.Pages.Account
 {
@@ -16,12 +17,14 @@ namespace Warehouse.Web.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
-            _logger = logger;
+            _userManager   = userManager;
+            _logger        = logger;
         }
 
         [BindProperty]
@@ -77,6 +80,14 @@ namespace Warehouse.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
+                    var user = await _userManager.FindByNameAsync(Input.Username);
+
+                    if (null == user.Company)
+                    {
+                        returnUrl = Url.Action("Create", "CompaniesController", new { Area = "Company" });
+                    }
+
                     return LocalRedirect(returnUrl);
                 }
 
