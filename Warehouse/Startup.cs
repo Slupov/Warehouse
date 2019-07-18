@@ -87,7 +87,8 @@ namespace Warehouse
             services.AddMvc(options =>
             {
                 //adds global antiforgery defense for server data alterations from outside
-                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+                //TODO Stoyan Lupov 18 July, 2019 Uncomment to enable XSS security -> POST request fail tho
+//                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -116,6 +117,10 @@ namespace Warehouse
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "areas",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

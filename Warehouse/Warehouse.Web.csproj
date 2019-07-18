@@ -17,6 +17,8 @@
 
 
   <ItemGroup>
+    <Folder Include="Areas\API\Data\" />
+    <Folder Include="Areas\API\Views\" />
     <Folder Include="Areas\Company\Data\" />
     <Folder Include="Areas\Company\Models\" />
     <Folder Include="Data\" />

@@ -83,9 +83,11 @@ namespace Warehouse.Web.Areas.Identity.Pages.Account
 
                     var user = await _userManager.FindByNameAsync(Input.Username);
 
+                    //TODO Stoyan Lupov 18 July, 2019 MSG
+                    //return url to company creation
                     if (null == user.Company)
                     {
-                        returnUrl = Url.Action("Create", "CompaniesController", new { Area = "Company" });
+//                        returnUrl = Url.Action("Create", "CompaniesController", new { Area = "Company" });
                     }
 
                     return LocalRedirect(returnUrl);

@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Warehouse.Data.Models;
 using Warehouse.Services;
 using Warehouse.Services.ApiServices;
 
@@ -11,10 +13,14 @@ namespace Warehouse.Web.Areas.Company.Controllers
     {
         private readonly IGenericDataService<Data.Models.Company> _companies;
         private readonly IMerchantRegistryService _merchantRegistry;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CompaniesController(IGenericDataService<Data.Models.Company> companies)
+        public CompaniesController(IGenericDataService<Data.Models.Company> companies, IMerchantRegistryService merchantRegistry,
+            UserManager<ApplicationUser> userManager)
         {
             _companies = companies;
+            _merchantRegistry = merchantRegistry;
+            _userManager = userManager;
         }
 
         // GET: Company/Companies
@@ -42,9 +48,13 @@ namespace Warehouse.Web.Areas.Company.Controllers
         }
 
         // GET: Company/Companies/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            Data.Models.Company c = new Data.Models.Company();
+            c.Contacts = new Contacts();
+            c.Contacts.Email = (await _userManager.GetUserAsync(User)).Email;
+
+            return View(c);
         }
 
         // POST: Company/Companies/Create
@@ -52,7 +62,7 @@ namespace Warehouse.Web.Areas.Company.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdentificationCode")] Data.Models.Company company)
+        public async Task<IActionResult> Create(Data.Models.Company company)
         {
             if (ModelState.IsValid)
             {
