@@ -12,14 +12,14 @@ using Warehouse.Services;
 
 namespace Warehouse.Web.Areas.Settings.Controllers
 {
-    public class ApplicationSettingsController : SettingsBaseController
+    public class HomeController : SettingsBaseController
     {
         private readonly IGenericDataService<ApplicationSettings> _appSettings;
         private readonly IGenericDataService<Data.Models.Company> _companies;
         private readonly UserManager<ApplicationUser> _userManager;
 
 
-        public ApplicationSettingsController(
+        public HomeController(
             IGenericDataService<ApplicationSettings> appSettings,
             IGenericDataService<Data.Models.Company> companies,
             UserManager<ApplicationUser> userManager)

@@ -1,0 +1,19 @@
+﻿@model Warehouse.Web.Models.CompanyInfoTabViewModel  
+
+@if (Model.ShouldVisualize)
+{
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                За фирмата
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" asp-area="Company" asp-controller="Home" asp-action="Details" asp-route-id="@Model.CompanyId">Данни за фирмата</a>
+                <a class="dropdown-item" asp-area="BankAccounts" asp-controller="Home" asp-action="Index" asp-route-companyId="@Model.CompanyId">Банкови сметки</a>
+                <a class="dropdown-item" asp-area="Places" asp-controller="Home" asp-action="Index" asp-route-companyId="@Model.CompanyId">Обекти</a>
+                <a class="dropdown-item" href="#">Типове плащания</a>
+                <a class="dropdown-item" href="#">Типове приходи/разходи</a>
+            </div>
+        </li>
+    </ul>
+}

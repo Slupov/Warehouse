@@ -75,6 +75,8 @@ namespace Warehouse
             //Data services
             //TODO Stoyan Lupov 17 July, 2019 Add all data services to DI Container
             services.AddTransient<IGenericDataService<Company>, GenericDataService<Company>>();
+            services.AddTransient<IGenericDataService<BankAccount>, GenericDataService<BankAccount>>();
+            services.AddTransient<IGenericDataService<Place>, GenericDataService<Place>>();
             services.AddTransient<IGenericDataService<ApplicationSettings>, GenericDataService<ApplicationSettings>>();
 
             //API services

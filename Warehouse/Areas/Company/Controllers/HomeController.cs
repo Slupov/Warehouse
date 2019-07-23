@@ -9,13 +9,13 @@ using Warehouse.Services.ApiServices;
 
 namespace Warehouse.Web.Areas.Company.Controllers
 {
-    public class CompaniesController : CompaniesBaseController
+    public class HomeController : CompaniesBaseController
     {
         private readonly IGenericDataService<Data.Models.Company> _companies;
         private readonly IMerchantRegistryService _merchantRegistry;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public CompaniesController(IGenericDataService<Data.Models.Company> companies,
+        public HomeController(IGenericDataService<Data.Models.Company> companies,
             IMerchantRegistryService merchantRegistry,
             UserManager<ApplicationUser> userManager)
         {
@@ -69,6 +69,9 @@ namespace Warehouse.Web.Areas.Company.Controllers
             if (ModelState.IsValid)
             {
                 company.Contacts.Company = company;
+                company.ApplicationSettings = new ApplicationSettings();
+                company.ApplicationSettings.Company = company;
+
                 var currUser = await _userManager.GetUserAsync(User);
 
                 if (company.ApplicationUsers is null)
@@ -80,7 +83,8 @@ namespace Warehouse.Web.Areas.Company.Controllers
 
                 _companies.Add(company);
 
-                var returnUrl = "/settings/applicationsettings/create";
+                //TODO Stoyan Lupov 23 July, 2019 Make path dynamically
+                var returnUrl = "/settings/home/edit/" + company.ApplicationSettings.Id;
                 return LocalRedirect(returnUrl);
             }
 

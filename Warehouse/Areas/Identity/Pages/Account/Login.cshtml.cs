@@ -83,15 +83,15 @@ namespace Warehouse.Web.Areas.Identity.Pages.Account
 
                     var user = await _userManager.FindByNameAsync(Input.Username);
 
-                    //TODO Stoyan Lupov 18 July, 2019 Make return url more dynamic
-                    //return url to company creation
                     if (user.Company is null)
                     {
-                        returnUrl = "/company/companies/create/";
+                        //TODO Stoyan Lupov 23 July, 2019 Make path dynamically
+                        returnUrl = "/company/home/create/";
                     }
                     else if (user.Company.ApplicationSettings is null)
                     {
-                        returnUrl = "/settings/applicationsettings/create";
+                        //TODO Stoyan Lupov 23 July, 2019 Make path dynamically
+                        returnUrl = "/settings/home/create";
                     }
 
                     return LocalRedirect(returnUrl);

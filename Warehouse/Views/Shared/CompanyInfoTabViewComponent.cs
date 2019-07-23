@@ -6,11 +6,11 @@ using Warehouse.Web.Models;
 
 namespace Warehouse.Web.Views.Shared
 {
-    public class AppSettingsTabViewComponent : ViewComponent
+    public class CompanyInfoTabViewComponent : ViewComponent
     {
         private readonly UserManager<ApplicationUser> _users;
 
-        public AppSettingsTabViewComponent(UserManager<ApplicationUser> users)
+        public CompanyInfoTabViewComponent(UserManager<ApplicationUser> users)
         {
             _users = users;
         }
@@ -19,19 +19,19 @@ namespace Warehouse.Web.Views.Shared
         {
             var currUser = await _users.GetUserAsync(Request.HttpContext.User);
 
-            AppSettingsTabViewModel vm = new AppSettingsTabViewModel();
+            CompanyInfoTabViewModel vm = new CompanyInfoTabViewModel();
 
-            if (currUser.Company is null || currUser.Company.ApplicationSettings is null)
+            if (currUser.Company is null)
             {
                 vm.ShouldVisualize = false;
             }
             else
             {
                 vm.ShouldVisualize = true;
-                vm.AppSettingsId   = currUser.Company.ApplicationSettings.Id;
+                vm.CompanyId = currUser.Company.ApplicationSettings.Id;
             }
 
-            var result = (IViewComponentResult)View("AppSettingsTabView", vm);
+            var result = (IViewComponentResult) View("CompanyInfoTabView", vm);
             return result;
         }
     }
