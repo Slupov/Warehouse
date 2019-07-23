@@ -21,6 +21,8 @@
     <Folder Include="Areas\API\Views\" />
     <Folder Include="Areas\Company\Data\" />
     <Folder Include="Areas\Company\Models\" />
+    <Folder Include="Areas\Settings\Data\" />
+    <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Data\" />
   </ItemGroup>
 

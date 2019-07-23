@@ -18,6 +18,5 @@ function addCompanyNameFieldText(companyId) {
     });
 
     request.fail(function(data) {
-        alert("Request failed...");
     });
 }

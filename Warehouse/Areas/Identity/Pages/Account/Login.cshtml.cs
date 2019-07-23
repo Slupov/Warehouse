@@ -83,11 +83,15 @@ namespace Warehouse.Web.Areas.Identity.Pages.Account
 
                     var user = await _userManager.FindByNameAsync(Input.Username);
 
-                    //TODO Stoyan Lupov 18 July, 2019 MSG
+                    //TODO Stoyan Lupov 18 July, 2019 Make return url more dynamic
                     //return url to company creation
-                    if (null == user.Company)
+                    if (user.Company is null)
                     {
-//                        returnUrl = Url.Action("Create", "CompaniesController", new { Area = "Company" });
+                        returnUrl = "/company/companies/create/";
+                    }
+                    else if (user.Company.ApplicationSettings is null)
+                    {
+                        returnUrl = "/settings/applicationsettings/create";
                     }
 
                     return LocalRedirect(returnUrl);
@@ -105,7 +109,7 @@ namespace Warehouse.Web.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt. Have you verified your email?");
                     return Page();
                 }
             }

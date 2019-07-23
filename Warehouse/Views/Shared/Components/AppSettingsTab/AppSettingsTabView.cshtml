@@ -1,0 +1,8 @@
+﻿@model Warehouse.Web.Models.AppSettingsTabViewModel
+
+@if (Model.ShouldVisualize)
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Settings" asp-controller="ApplicationSettings" asp-action="Edit" asp-route-id="@Model.AppSettingsId">App Settings</a>
+    </li>
+}

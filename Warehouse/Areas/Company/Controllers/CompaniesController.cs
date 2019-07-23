@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,14 +9,14 @@ using Warehouse.Services.ApiServices;
 
 namespace Warehouse.Web.Areas.Company.Controllers
 {
-    [Area("Company")]
-    public class CompaniesController : Controller
+    public class CompaniesController : CompaniesBaseController
     {
         private readonly IGenericDataService<Data.Models.Company> _companies;
         private readonly IMerchantRegistryService _merchantRegistry;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public CompaniesController(IGenericDataService<Data.Models.Company> companies, IMerchantRegistryService merchantRegistry,
+        public CompaniesController(IGenericDataService<Data.Models.Company> companies,
+            IMerchantRegistryService merchantRegistry,
             UserManager<ApplicationUser> userManager)
         {
             _companies = companies;
@@ -47,13 +48,14 @@ namespace Warehouse.Web.Areas.Company.Controllers
             return View(company);
         }
 
+        //TODO Stoyan Lupov 23 July, 2019 Remove method create (it is created programatically)
         // GET: Company/Companies/Create
         public async Task<IActionResult> Create()
         {
             Data.Models.Company c = new Data.Models.Company();
             c.Contacts = new Contacts();
             c.Contacts.Email = (await _userManager.GetUserAsync(User)).Email;
-
+            
             return View(c);
         }
 
@@ -67,8 +69,19 @@ namespace Warehouse.Web.Areas.Company.Controllers
             if (ModelState.IsValid)
             {
                 company.Contacts.Company = company;
+                var currUser = await _userManager.GetUserAsync(User);
+
+                if (company.ApplicationUsers is null)
+                {
+                    company.ApplicationUsers = new List<ApplicationUser>();
+                }
+
+                company.ApplicationUsers.Add(currUser);
+
                 _companies.Add(company);
-                return RedirectToAction(nameof(Index));
+
+                var returnUrl = "/settings/applicationsettings/create";
+                return LocalRedirect(returnUrl);
             }
 
             return View(company);

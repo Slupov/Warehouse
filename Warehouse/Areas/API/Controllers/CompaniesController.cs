@@ -25,7 +25,9 @@ namespace Warehouse.Web.Areas.API.Controllers
         [HttpPost]
         public async Task<IActionResult> GetName([FromBody] string id)
         {
-            return Ok(await _merchantRegistry.GetCompanyName(id));
+            string companyName = await _merchantRegistry.GetCompanyName(id);
+
+            return Ok(companyName);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Warehouse.Services.Implementations
             SendGridSender.Subject = "Testing WAREHOUSE Send grid emails";
 
             SendGridSender.PlainTextContent = "Testing plain text";
-            SendGridSender.HtmlContent = "<strong>Testing HTML content of email</strong>" + message;
+            SendGridSender.HtmlContent = "<strong>Testing HTML content of email</strong>  " + message;
 
             SendGridSender.ApiKey = Configuration.GetSection("SendGrid")["ApiKey"];
             SendGridSender.Send();

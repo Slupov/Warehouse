@@ -58,9 +58,7 @@ namespace Warehouse
 
                     //user settings
                     options.User.RequireUniqueEmail = true;
-
-                    //TODO Stoyan Lupov 16 July, 2019 This one should be set to true when email activation is ready
-                    options.SignIn.RequireConfirmedEmail = false;
+                    options.SignIn.RequireConfirmedEmail = true;
                 })
                 .AddEntityFrameworkStores<WarehouseDbContext>()
                 .AddDefaultTokenProviders()
@@ -73,8 +71,9 @@ namespace Warehouse
             //            services.AddTransient<IHtmlService, HtmlService>();
 
             //Data services
-            //TODO Stoyan Lupov 17 July, 2019 MSG
+            //TODO Stoyan Lupov 17 July, 2019 Add all data services to DI Container
             services.AddTransient<IGenericDataService<Company>, GenericDataService<Company>>();
+            services.AddTransient<IGenericDataService<ApplicationSettings>, GenericDataService<ApplicationSettings>>();
 
             //API services
             services.AddTransient<IMerchantRegistryService, BivolMerchantRegistryService>();
