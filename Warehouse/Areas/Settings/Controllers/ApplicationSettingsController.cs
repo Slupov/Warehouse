@@ -15,14 +15,17 @@ namespace Warehouse.Web.Areas.Settings.Controllers
     public class ApplicationSettingsController : SettingsBaseController
     {
         private readonly IGenericDataService<ApplicationSettings> _appSettings;
+        private readonly IGenericDataService<Data.Models.Company> _companies;
         private readonly UserManager<ApplicationUser> _userManager;
 
 
         public ApplicationSettingsController(
             IGenericDataService<ApplicationSettings> appSettings,
+            IGenericDataService<Data.Models.Company> companies,
             UserManager<ApplicationUser> userManager)
         {
             _appSettings = appSettings;
+            _companies   = companies;
             _userManager = userManager;
         }
 
@@ -66,9 +69,21 @@ namespace Warehouse.Web.Areas.Settings.Controllers
         {
             if (ModelState.IsValid)
             {
-                appSetttings.Company = (await _userManager.GetUserAsync(User)).Company;
+                var currUser = await _userManager.GetUserAsync(User);
+                var userCompany = _companies.GetSingleOrDefault(x => x.Id == currUser.CompanyId);
 
+                appSetttings.Company = userCompany;
+                appSetttings.CompanyId = userCompany.Id;
+
+                // add appSettings to the database
                 _appSettings.Add(appSetttings);
+
+                // get appSettings new id from the db and attach it to company
+                userCompany.ApplicationSettings = appSetttings;
+                userCompany.ApplicationSettingsId = appSetttings.Id;
+
+                _companies.Update(userCompany);
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -85,8 +100,7 @@ namespace Warehouse.Web.Areas.Settings.Controllers
 
             var currUser = await _userManager.GetUserAsync(User);
 
-            var currSettings = await _appSettings.GetSingleOrDefaultAsync(
-                x => x.CompanyId == currUser.CompanyId);
+            var currSettings = await _appSettings.GetSingleOrDefaultAsync(x => x.Id == id);
 
             if (currSettings == null)
             {

@@ -58,7 +58,9 @@ namespace Warehouse
 
                     //user settings
                     options.User.RequireUniqueEmail = true;
-                    options.SignIn.RequireConfirmedEmail = true;
+
+                    //TODO Stoyan Lupov 23 July, 2019 True
+                    options.SignIn.RequireConfirmedEmail = false;
                 })
                 .AddEntityFrameworkStores<WarehouseDbContext>()
                 .AddDefaultTokenProviders()

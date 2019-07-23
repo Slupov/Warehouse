@@ -21,7 +21,7 @@ namespace Warehouse.Web.Views.Shared
 
             AppSettingsTabViewModel vm = new AppSettingsTabViewModel();
 
-            if (currUser.Company is null)
+            if (currUser.Company is null || currUser.Company.ApplicationSettings is null)
             {
                 vm.ShouldVisualize = false;
             }
