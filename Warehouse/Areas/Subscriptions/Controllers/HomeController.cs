@@ -65,9 +65,16 @@ namespace Warehouse.Web.Areas.Subscriptions.Controllers
             if (ModelState.IsValid)
             {
                 subscription.Company = (await _userManager.GetUserAsync(User)).Company;
+
+                subscription.RequestedOn = DateTime.Now;
+
+                //TODO Stoyan Lupov 27 July, 2019 Set this whenever the payment has been completed
+                subscription.PayedOn     = DateTime.Now;
+
                 _subscriptions.Add(subscription);
                 return RedirectToAction(nameof(Index), new { companyId = subscription.Company.Id });
             }
+
             return View(subscription);
         }
 

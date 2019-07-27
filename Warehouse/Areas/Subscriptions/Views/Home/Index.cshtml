@@ -1,10 +1,5 @@
 ﻿@model IEnumerable<Warehouse.Data.Models.Subscription>
 
-@{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
 <h1>Index</h1>
 
 <p>
@@ -63,9 +58,7 @@
                 @Html.DisplayFor(modelItem => item.PaymentStatus)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
             </td>
         </tr>
 }

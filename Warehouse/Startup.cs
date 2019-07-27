@@ -17,6 +17,7 @@ using Warehouse.Data.Models;
 using Warehouse.Services;
 using Warehouse.Services.ApiServices;
 using Warehouse.Services.Implementations;
+using Warehouse.Utils;
 
 
 namespace Warehouse
@@ -150,14 +151,14 @@ namespace Warehouse
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            string[] roleNames = { "Admin", "Owner", "Manager" };
-
-            foreach (var roleName in roleNames)
+            foreach (UserRoles userRole in Enum.GetValues(typeof(UserRoles)))
             {
-                var roleExist = await roleManager.RoleExistsAsync(roleName);
+                var roleExist = await roleManager.RoleExistsAsync(userRole.ToString());
+
                 if (!roleExist)
-                    await roleManager.CreateAsync(new IdentityRole(roleName));
+                    await roleManager.CreateAsync(new IdentityRole(userRole.ToString()));
             }
+
 
             //Here you could create a super user who will maintain the web app
             var username = this.Configuration.GetSection("UserSettings")["AdminUsername"];

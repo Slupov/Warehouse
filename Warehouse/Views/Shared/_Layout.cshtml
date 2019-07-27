@@ -1,4 +1,5 @@
 ﻿@using Warehouse.Web.Views.Shared
+@using Warehouse.Web.Views.Shared.Components
 @{
     var appSettingsId = 0;
 }
@@ -41,14 +42,20 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
 
-                        <li>
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                @await Component.InvokeAsync(nameof(CompanyInfoTabViewComponent).Replace("ViewComponent", ""))
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @await Component.InvokeAsync(nameof(CompanyInfoTabViewComponent).Replace("ViewComponent", ""))
 
-                                @await Component.InvokeAsync(nameof(CompanyAdministrationTabViewComponent).Replace("ViewComponent", ""))
-                            }
-                        </li>
+                            @await Component.InvokeAsync(nameof(CompanyAdministrationTabViewComponent).Replace("ViewComponent", ""))
+
+                            @await Component.InvokeAsync(nameof(OperationsTabViewComponent).Replace("ViewComponent", ""))
+
+                            @await Component.InvokeAsync(nameof(MerchantTabViewComponent).Replace("ViewComponent", ""))
+
+                            @await Component.InvokeAsync(nameof(NomenclaturesTabViewComponent).Replace("ViewComponent", ""))
+                        }
+                        
+          
 
                     </ul>
                 </div>

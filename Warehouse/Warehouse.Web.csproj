@@ -40,6 +40,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Warehouse.Data\Warehouse.Data.csproj" />
     <ProjectReference Include="..\Warehouse.Services\Warehouse.Services.csproj" />
+    <ProjectReference Include="..\Warehouse.Utils\Warehouse.Utils.csproj" />
   </ItemGroup>
 
 </Project>

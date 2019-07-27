@@ -54,28 +54,10 @@ namespace Warehouse.Web.Areas.CompanyUsers.Controllers
             return View(vm);
         }
 
-        public async Task<IActionResult> Details(string id)
-        {
-            //TODO Stoyan Lupov 26 July, 2019 Checks if current user is COMPANY OWNER
-
-            if (id == null || string.IsNullOrEmpty(id))
-            {
-                return NotFound();
-            }
-
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
-        }
-
         public async Task<IActionResult> Create()
         {
-            var vm = new CompanyUsersCreateViewModel();
-            vm.CompanyId = (await _userManager.GetUserAsync(User)).Company.Id;
+            var vm = new CompanyUsersCreateEditViewModel();
+            vm.User = (await _userManager.GetUserAsync(User));
 
             return View(vm);
         }
@@ -85,46 +67,46 @@ namespace Warehouse.Web.Areas.CompanyUsers.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CompanyUsersCreateViewModel viewModel)
+        public async Task<IActionResult> Create(CompanyUsersCreateEditViewModel editViewModel)
         {
             //TODO Stoyan Lupov 26 July, 2019 Checks if current user is COMPANY OWNER
 
             if (ModelState.IsValid)
             {
-                viewModel.User.Company = (await _userManager.GetUserAsync(User)).Company;
+                editViewModel.User.Company = (await _userManager.GetUserAsync(User)).Company;
 
                 //TODO Stoyan Lupov 26 July, 2019 Implement random password generator
                 var password = "123";
-                var result = await _userManager.CreateAsync(viewModel.User, password);
+                var result = await _userManager.CreateAsync(editViewModel.User, password);
 
                 if (result.Succeeded)
                 {
                     //add user to roles
-                    foreach (var role in viewModel.UserRoles)
+                    foreach (var role in editViewModel.UserRoles)
                     {
                         //check if its a valid role name
                         if (!string.IsNullOrEmpty(role) && 
                             await _roleManager.RoleExistsAsync(role))
                         {
-                            await _userManager.AddToRoleAsync(viewModel.User, role);
+                            await _userManager.AddToRoleAsync(editViewModel.User, role);
                         }        
                     }
 
                     _logger.LogInformation("User created a new account with password.");
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(viewModel.User);
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(editViewModel.User);
 
                     string confirmationLink = Url.Page(
                         "/Account/ConfirmEmail",
                         null, // handler
-                        new { area = "Identity", userid = viewModel.User.Id, code = code },
+                        new { area = "Identity", userid = editViewModel.User.Id, code = code },
                         Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(viewModel.User.Email, "Confirm your email",
+                    await _emailSender.SendEmailAsync(editViewModel.User.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(confirmationLink)}'>clicking here</a>.");
 
                     return RedirectToAction(nameof(Index),
-                        new { companyId = viewModel.User.Company.Id });
+                        new { companyId = editViewModel.User.Company.Id });
                 }
 
                 foreach (var error in result.Errors)
@@ -134,12 +116,12 @@ namespace Warehouse.Web.Areas.CompanyUsers.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return View(viewModel);
+            return View(editViewModel);
         }
 
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null || string.IsNullOrEmpty(id))
+            if (string.IsNullOrEmpty(id))
             {
                 return NotFound();
             }
@@ -150,7 +132,12 @@ namespace Warehouse.Web.Areas.CompanyUsers.Controllers
                 return NotFound();
             }
 
-            return View(user);
+            var vm  = new CompanyUsersCreateEditViewModel();
+            vm.User = user;
+
+            vm.UserRoles = await _userManager.GetRolesAsync(user);
+
+            return View(vm);
         }
 
         // POST: IncomeExpenses/IncomeExpenses/Edit/5
@@ -158,9 +145,9 @@ namespace Warehouse.Web.Areas.CompanyUsers.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, ApplicationUser user)
+        public async Task<IActionResult> Edit(string id, CompanyUsersCreateEditViewModel vm)
         {
-            if (id != user.Id)
+            if (id != vm.User.Id)
             {
                 return NotFound();
             }
@@ -169,12 +156,14 @@ namespace Warehouse.Web.Areas.CompanyUsers.Controllers
             {
                 try
                 {
-                    user.Company = (await _userManager.GetUserAsync(User)).Company;
+                    var user = await _userManager.FindByIdAsync(id);
+                    user.PhoneNumber = vm.User.PhoneNumber;
+
                     await _userManager.UpdateAsync(user);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExistsAsync(user.Id))
+                    if (!UserExistsAsync(vm.User.Id))
                     {
                         return NotFound();
                     }
@@ -183,11 +172,12 @@ namespace Warehouse.Web.Areas.CompanyUsers.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index),
-                    new { companyId = user.Company.Id });
+                    new { companyId = vm.User.Company.Id });
             }
 
-            return View(user);
+            return View(vm);
         }
 
         private bool UserExistsAsync(string id)

@@ -1,4 +1,4 @@
-﻿@model Warehouse.Web.Areas.CompanyUsers.Models.CompanyUsersCreateViewModel
+﻿@model Warehouse.Web.Areas.CompanyUsers.Models.CompanyUsersCreateEditViewModel
 
 <h1>Create</h1>
 
@@ -41,5 +41,5 @@
 </div>
 
 <div>
-    <a asp-action="Index" asp-route-companyId="@Model.CompanyId">Back to List</a>
+    <a asp-action="Index" asp-route-companyId="@Model.User.Company.Id">Back to List</a>
 </div>
