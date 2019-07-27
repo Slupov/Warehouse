@@ -21,6 +21,7 @@
     <Folder Include="Areas\API\Views\" />
     <Folder Include="Areas\BankAccounts\Data\" />
     <Folder Include="Areas\BankAccounts\Models\" />
+    <Folder Include="Areas\CompanyUsers\Data\" />
     <Folder Include="Areas\Company\Data\" />
     <Folder Include="Areas\Company\Models\" />
     <Folder Include="Areas\IncomeExpenses\Data\" />
@@ -30,6 +31,8 @@
     <Folder Include="Areas\Places\Models\" />
     <Folder Include="Areas\Settings\Data\" />
     <Folder Include="Areas\Settings\Models\" />
+    <Folder Include="Areas\Subscriptions\Data\" />
+    <Folder Include="Areas\Subscriptions\Models\" />
     <Folder Include="Data\" />
   </ItemGroup>
 

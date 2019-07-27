@@ -84,7 +84,7 @@ namespace Warehouse.Web.Areas.Company.Controllers
                 _companies.Add(company);
 
                 //TODO Stoyan Lupov 23 July, 2019 Make path dynamically
-                var returnUrl = "/settings/home/edit/" + company.ApplicationSettings.Id;
+                var returnUrl = "/settings/home/edit?companyId=" + company.ApplicationSettings.Id;
                 return LocalRedirect(returnUrl);
             }
 

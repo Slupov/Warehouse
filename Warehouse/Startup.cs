@@ -79,6 +79,7 @@ namespace Warehouse
             services.AddTransient<IGenericDataService<Place>, GenericDataService<Place>>();
             services.AddTransient<IGenericDataService<Payment>, GenericDataService<Payment>>();
             services.AddTransient<IGenericDataService<IncomeExpense>, GenericDataService<IncomeExpense>>();
+            services.AddTransient<IGenericDataService<Subscription>, GenericDataService<Subscription>>();
             services.AddTransient<IGenericDataService<ApplicationSettings>, GenericDataService<ApplicationSettings>>();
 
             //API services

@@ -91,16 +91,14 @@ namespace Warehouse.Web.Areas.Settings.Controllers
         }
 
         // GET: Settings/ApplicationSettings/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? companyId)
         {
-            if (id == null)
+            if (companyId == null)
             {
                 return NotFound();
             }
 
-            var currUser = await _userManager.GetUserAsync(User);
-
-            var currSettings = await _appSettings.GetSingleOrDefaultAsync(x => x.Id == id);
+            var currSettings = await _appSettings.GetSingleOrDefaultAsync(x => x.Company.Id == companyId);
 
             if (currSettings == null)
             {
@@ -139,7 +137,9 @@ namespace Warehouse.Web.Areas.Settings.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                //TODO Stoyan Lupov 26 July, 2019 Make path to home dynamic
+                return LocalRedirect("/");
             }
 
             return View(applicationSettings);

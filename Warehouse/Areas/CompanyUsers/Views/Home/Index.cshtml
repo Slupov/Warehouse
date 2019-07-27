@@ -1,0 +1,71 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model Warehouse.Web.Areas.CompanyUsers.Models.CompanyUsersIndexViewModel
+
+<h1>Company Users</h1>
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().Company.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().EmailConfirmed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserRoles)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @{
+        var usersCnt = Model.Users.Count();
+        for (int i = 0; i < usersCnt; i++)
+        {
+            var currUsr = Model.Users.ElementAt(i);
+            var currRoles = Model.UserRoles.ElementAt(i);
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => currUsr.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => currUsr.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => currUsr.Company.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => currUsr.EmailConfirmed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => currUsr.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => currRoles)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@currUsr.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@currUsr.Id">Details</a>
+                </td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
