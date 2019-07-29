@@ -33,10 +33,7 @@
     <Folder Include="Areas\Places\Models\" />
     <Folder Include="Areas\ProductGroups\Data\" />
     <Folder Include="Areas\ProductGroups\Models\" />
-    <Folder Include="Areas\Products\Controllers\" />
     <Folder Include="Areas\Products\Data\" />
-    <Folder Include="Areas\Products\Models\" />
-    <Folder Include="Areas\Products\Views\" />
     <Folder Include="Areas\Settings\Data\" />
     <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Subscriptions\Data\" />

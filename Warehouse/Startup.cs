@@ -84,6 +84,7 @@ namespace Warehouse
             services.AddTransient<IGenericDataService<ApplicationSettings>, GenericDataService<ApplicationSettings>>();
             services.AddTransient<IGenericDataService<MeasureUnit>, GenericDataService<MeasureUnit>>();
             services.AddTransient<IGenericDataService<ProductGroup>, GenericDataService<ProductGroup>>();
+            services.AddTransient<IGenericDataService<Product>, GenericDataService<Product>>();
 
             //API services
             services.AddTransient<IMerchantRegistryService, BivolMerchantRegistryService>();

@@ -1,0 +1,73 @@
+﻿@model Warehouse.Web.Areas.Products.Models.ProductEditCreateViewModel
+
+<h1>Create</h1>
+
+<h4>Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Product.PlaceId" class="control-label"></label>
+                <select asp-for="Product.PlaceId" asp-items="@Model.Places" class ="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.Name" class="control-label"></label>
+                <input asp-for="Product.Name" class="form-control" />
+                <span asp-validation-for="Product.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.BaseBarcode" class="control-label"></label>
+                <input asp-for="Product.BaseBarcode" class="form-control" />
+                <span asp-validation-for="Product.BaseBarcode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.MeasureUnitId" class="control-label"></label>
+                <select asp-for="Product.MeasureUnitId" class ="form-control" asp-items="@Model.MeasureUnits"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.ProductGroupId" class="control-label"></label>
+                <select asp-for="Product.ProductGroupId" class ="form-control" asp-items="@Model.ProductGroups"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.RetailPrice" class="control-label"></label>
+                <input asp-for="Product.RetailPrice" class="form-control" />
+                <span asp-validation-for="Product.RetailPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.WholesalePrice" class="control-label"></label>
+                <input asp-for="Product.WholesalePrice" class="form-control" />
+                <span asp-validation-for="Product.WholesalePrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.DistributorPrice" class="control-label"></label>
+                <input asp-for="Product.DistributorPrice" class="form-control" />
+                <span asp-validation-for="Product.DistributorPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.MinimalQuantity" class="control-label"></label>
+                <input asp-for="Product.MinimalQuantity" class="form-control" />
+                <span asp-validation-for="Product.MinimalQuantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.OptimalQuantity" class="control-label"></label>
+                <input asp-for="Product.OptimalQuantity" class="form-control" />
+                <span asp-validation-for="Product.OptimalQuantity" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Product.IsService" /> @Html.DisplayNameFor(model => model.Product.IsService)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
