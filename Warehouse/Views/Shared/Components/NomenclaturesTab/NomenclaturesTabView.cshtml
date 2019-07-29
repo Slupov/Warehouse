@@ -1,0 +1,54 @@
+﻿@model Warehouse.Web.Models.NomenclaturesTabViewModel
+
+<ul class="navbar-nav ml-auto">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Номенклатури
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <div class="dropright">
+                @* drop right toggle button *@
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Стоки
+                </a>
+
+                <div class="dropdown-submenu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" asp-area="Products" asp-controller="Home" asp-action="Index" asp-route-companyId="@Model.CompanyId">
+                        Списък стоки
+                    </a>
+                    <a class="dropdown-item" asp-area="ProductGroups" asp-controller="Home" asp-action="Index" asp-route-companyId="@Model.CompanyId">
+                        Групи стоки
+                    </a>
+                    <a class="dropdown-item" asp-area="MeasureUnits" asp-controller="Home" asp-action="Index" asp-route-companyId="@Model.CompanyId">
+                        Мерни единици
+                    </a>
+                    <a class="dropdown-item" asp-area="Company" asp-controller="" asp-action="" asp-route-id="">
+                        Бързо добавяне на стоки
+                    </a>
+                    <a class="dropdown-item" asp-area="Company" asp-controller="" asp-action="" asp-route-id="">
+                        Начално състояние на склада
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <div class="dropright">
+                @* drop right toggle button *@
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Партньори
+                </a>
+
+                <div class="dropdown-submenu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" asp-area="Company" asp-controller="" asp-action="" asp-route-id="">
+                        Списък партньори
+                    </a>
+                    <a class="dropdown-item" asp-area="Company" asp-controller="" asp-action="" asp-route-id="">
+                        Групи партньори
+                    </a>
+                </div>
+            </div>
+        </div>
+    </li>
+</ul>

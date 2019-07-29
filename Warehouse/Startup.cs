@@ -82,10 +82,11 @@ namespace Warehouse
             services.AddTransient<IGenericDataService<IncomeExpense>, GenericDataService<IncomeExpense>>();
             services.AddTransient<IGenericDataService<Subscription>, GenericDataService<Subscription>>();
             services.AddTransient<IGenericDataService<ApplicationSettings>, GenericDataService<ApplicationSettings>>();
+            services.AddTransient<IGenericDataService<MeasureUnit>, GenericDataService<MeasureUnit>>();
+            services.AddTransient<IGenericDataService<ProductGroup>, GenericDataService<ProductGroup>>();
 
             //API services
             services.AddTransient<IMerchantRegistryService, BivolMerchantRegistryService>();
-
 
             services.AddAutoMapper();
             services.AddRouting(o => o.LowercaseUrls = true);

@@ -26,9 +26,17 @@
     <Folder Include="Areas\Company\Models\" />
     <Folder Include="Areas\IncomeExpenses\Data\" />
     <Folder Include="Areas\IncomeExpenses\Models\" />
+    <Folder Include="Areas\MeasureUnits\Data\" />
+    <Folder Include="Areas\MeasureUnits\Models\" />
     <Folder Include="Areas\Payments\Data\" />
     <Folder Include="Areas\Places\Data\" />
     <Folder Include="Areas\Places\Models\" />
+    <Folder Include="Areas\ProductGroups\Data\" />
+    <Folder Include="Areas\ProductGroups\Models\" />
+    <Folder Include="Areas\Products\Controllers\" />
+    <Folder Include="Areas\Products\Data\" />
+    <Folder Include="Areas\Products\Models\" />
+    <Folder Include="Areas\Products\Views\" />
     <Folder Include="Areas\Settings\Data\" />
     <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Subscriptions\Data\" />

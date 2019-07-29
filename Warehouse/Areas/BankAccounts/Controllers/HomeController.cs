@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Castle.DynamicProxy.Generators;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Warehouse.Data;
 using Warehouse.Data.Models;
 using Warehouse.Services;
 
@@ -76,6 +70,7 @@ namespace Warehouse.Web.Areas.BankAccounts.Controllers
                 bankAccount.Company = currUser.Company;
 
                 _bankAcccounts.Add(bankAccount);
+
                 return RedirectToAction(nameof(Index), new { companyId = bankAccount.Company.Id });
             }
 
@@ -104,7 +99,7 @@ namespace Warehouse.Web.Areas.BankAccounts.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CompanyId,BIC,IBAN,Currency")] BankAccount bankAccount)
+        public async Task<IActionResult> Edit(int id, BankAccount bankAccount)
         {
             if (id != bankAccount.Id)
             {

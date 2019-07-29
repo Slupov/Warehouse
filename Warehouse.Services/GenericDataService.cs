@@ -75,9 +75,19 @@ namespace Warehouse.Services
             return _dbSet.AnyAsync(where);
         }
 
+        public bool Any(Expression<Func<T, bool>> where)
+        {
+            return _dbSet.Any(where);
+        }
+
         public Task<bool> AnyAsync()
         {
             return _dbSet.AnyAsync();
+        }
+
+        public bool Any()
+        {
+            return _dbSet.Any();
         }
     }
 }

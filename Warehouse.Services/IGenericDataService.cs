@@ -24,6 +24,10 @@ namespace Warehouse.Services
 
         Task<bool> AnyAsync(Expression<Func<T, bool>> where);
 
+        bool Any(Expression<Func<T, bool>> where);
+
         Task<bool> AnyAsync();
+
+        bool Any();
     }
 }

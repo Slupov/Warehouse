@@ -14,7 +14,5 @@ namespace Warehouse.Data.Models
         public int CompanyId { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
-        public int ProductId { get; set; }
-
     }
 }
