@@ -2,25 +2,25 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Warehouse.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Warehouse.Data;
 using Warehouse.Data.Extension;
 using Warehouse.Data.Models;
 using Warehouse.Services;
 using Warehouse.Services.ApiServices;
 using Warehouse.Services.Implementations;
+using Warehouse.Services.Media;
 using Warehouse.Utils;
 
-
-namespace Warehouse
+namespace Warehouse.Web
 {
     public class Startup
     {
@@ -88,6 +88,7 @@ namespace Warehouse
 
             //API services
             services.AddTransient<IMerchantRegistryService, BivolMerchantRegistryService>();
+            services.AddTransient<IMediaTransferer, ServerFileSystemTransferer>();
 
             services.AddAutoMapper();
             services.AddRouting(o => o.LowercaseUrls = true);

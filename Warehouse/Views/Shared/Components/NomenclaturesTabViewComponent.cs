@@ -23,7 +23,16 @@ namespace Warehouse.Web.Views.Shared.Components
             var currUser = await _users.GetUserAsync(Request.HttpContext.User);
 
             NomenclaturesTabViewModel vm = new NomenclaturesTabViewModel();
-            vm.CompanyId = currUser.Company.Id;
+
+            if (currUser.Company is null)
+            {
+                vm.ShouldVisualize = false;
+            }
+            else
+            {
+                vm.ShouldVisualize = true;
+                vm.CompanyId = currUser.Company.Id;
+            }
 
             var result = (IViewComponentResult)View("NomenclaturesTabView", vm);
             return result;

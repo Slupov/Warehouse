@@ -23,7 +23,6 @@
     <Folder Include="Areas\BankAccounts\Models\" />
     <Folder Include="Areas\CompanyUsers\Data\" />
     <Folder Include="Areas\Company\Data\" />
-    <Folder Include="Areas\Company\Models\" />
     <Folder Include="Areas\IncomeExpenses\Data\" />
     <Folder Include="Areas\IncomeExpenses\Models\" />
     <Folder Include="Areas\MeasureUnits\Data\" />

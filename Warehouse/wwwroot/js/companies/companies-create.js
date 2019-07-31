@@ -1,7 +1,7 @@
 ﻿//on company-id input field focus lost -> addCompanyName
 
-$("input#IdentificationCode.form-control").focusout(function () {
-    addCompanyNameFieldText($("input#IdentificationCode.form-control").val());
+$("input#Company_IdentificationCode.form-control").focusout(function () {
+    addCompanyNameFieldText($("input#Company_IdentificationCode.form-control").val());
 });
 
 
@@ -14,7 +14,7 @@ function addCompanyNameFieldText(companyId) {
     });
 
     request.done(function(data) {
-        $("input#Name.form-control").val(data);
+        $("input#Company_Name.form-control").val(data);
     });
 
     request.fail(function(data) {

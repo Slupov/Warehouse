@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -6,21 +7,23 @@ using Microsoft.EntityFrameworkCore;
 using Warehouse.Data.Models;
 using Warehouse.Services;
 using Warehouse.Services.ApiServices;
+using Warehouse.Services.Media;
+using Warehouse.Web.Areas.Company.Models;
 
 namespace Warehouse.Web.Areas.Company.Controllers
 {
     public class HomeController : CompaniesBaseController
     {
         private readonly IGenericDataService<Data.Models.Company> _companies;
-        private readonly IMerchantRegistryService _merchantRegistry;
+        private readonly IMediaTransferer _mediaTransferer;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public HomeController(IGenericDataService<Data.Models.Company> companies,
-            IMerchantRegistryService merchantRegistry,
+            IMediaTransferer mediaTransferer,
             UserManager<ApplicationUser> userManager)
         {
             _companies = companies;
-            _merchantRegistry = merchantRegistry;
+            _mediaTransferer = mediaTransferer;
             _userManager = userManager;
         }
 
@@ -52,11 +55,13 @@ namespace Warehouse.Web.Areas.Company.Controllers
         // GET: Company/Companies/Create
         public async Task<IActionResult> Create()
         {
-            Data.Models.Company c = new Data.Models.Company();
-            c.Contacts = new Contacts();
-            c.Contacts.Email = (await _userManager.GetUserAsync(User)).Email;
+            CompanyCreateViewModel vm = new CompanyCreateViewModel();
+            vm.Company = new Data.Models.Company();
+
+            vm.Company.Contacts = new Contacts();
+            vm.Company.Contacts.Email = (await _userManager.GetUserAsync(User)).Email;
             
-            return View(c);
+            return View(vm);
         }
 
         // POST: Company/Companies/Create
@@ -64,31 +69,34 @@ namespace Warehouse.Web.Areas.Company.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Data.Models.Company company)
+        public async Task<IActionResult> Create(CompanyCreateViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                company.Contacts.Company = company;
-                company.ApplicationSettings = new ApplicationSettings();
-                company.ApplicationSettings.Company = company;
+                vm.Company.Contacts.Company = vm.Company;
+                vm.Company.ApplicationSettings = new ApplicationSettings();
+                vm.Company.ApplicationSettings.Company = vm.Company;
 
                 var currUser = await _userManager.GetUserAsync(User);
 
-                if (company.ApplicationUsers is null)
+                if (vm.Company.ApplicationUsers is null)
                 {
-                    company.ApplicationUsers = new List<ApplicationUser>();
+                    vm.Company.ApplicationUsers = new List<ApplicationUser>();
                 }
 
-                company.ApplicationUsers.Add(currUser);
+                vm.Company.ApplicationUsers.Add(currUser);
 
-                _companies.Add(company);
+                _companies.Add(vm.Company);
+
+                //add photo to file system
+                _mediaTransferer.UploadCompanyLogo(vm.Company, vm.CompanyAvatar);
 
                 //TODO Stoyan Lupov 23 July, 2019 Make path dynamically
-                var returnUrl = "/settings/home/edit?companyId=" + company.ApplicationSettings.Id;
+                var returnUrl = "/settings/home/edit?companyId=" + vm.Company.ApplicationSettings.Id;
                 return LocalRedirect(returnUrl);
             }
 
-            return View(company);
+            return View(vm);
         }
 
         // GET: Company/Companies/Edit/5

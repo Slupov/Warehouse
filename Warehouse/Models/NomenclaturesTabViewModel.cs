@@ -8,5 +8,7 @@ namespace Warehouse.Web.Models
     public class NomenclaturesTabViewModel
     {
         public int CompanyId { get; set; }
+
+        public bool ShouldVisualize { get; set; }
     }
 }

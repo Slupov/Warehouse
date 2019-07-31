@@ -1,23 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Warehouse.Services;
 using Warehouse.Services.ApiServices;
-using Warehouse.Web.Areas.API.Models;
 
 namespace Warehouse.Web.Areas.API.Controllers
 {
-    [Area("Api")]
-    public class CompaniesController : Controller
+    public class CompaniesController : ApiBaseController
     {
-        private IGenericDataService<Data.Models.Company> _companies;
         private IMerchantRegistryService _merchantRegistry;
 
-        public CompaniesController(IGenericDataService<Data.Models.Company> companies, IMerchantRegistryService merchantRegistry)
+        public CompaniesController(IMerchantRegistryService merchantRegistry)
         {
-            _companies        = companies;
             _merchantRegistry = merchantRegistry;
         }
 
