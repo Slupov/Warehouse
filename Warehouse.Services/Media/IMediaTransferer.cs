@@ -23,6 +23,5 @@ namespace Warehouse.Services.Media
         void DeleteCompanyMedia(Company company);
 
         Task<List<string>> GetProductPhotosPaths(Product product);
-
     }
 }

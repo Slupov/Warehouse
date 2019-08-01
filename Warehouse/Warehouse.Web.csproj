@@ -38,7 +38,7 @@
     <Folder Include="Areas\Subscriptions\Data\" />
     <Folder Include="Areas\Subscriptions\Models\" />
     <Folder Include="Data\" />
-    <Folder Include="wwwroot\images\companies\202434314\products\" />
+    <Folder Include="wwwroot\images\companies\" />
   </ItemGroup>
 
 

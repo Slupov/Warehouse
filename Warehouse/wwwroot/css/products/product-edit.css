@@ -1,0 +1,28 @@
+﻿.product-thumbnail-container {
+    position: relative;
+    width: 20%;
+    display: inline-block
+}
+
+.product-thumbnail-container img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.container .btn-danger {
+    position: absolute;
+    top: 80%;
+    left: 80%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    color: white;
+    font-size: 16px;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.container .btn-danger:hover {
+    background-color: black;
+}

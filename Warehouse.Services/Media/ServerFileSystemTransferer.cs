@@ -70,6 +70,12 @@ namespace Warehouse.Services.Media
             var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "images", "companies",
                 product.Company.IdentificationCode, "products", product.Name.Replace(" ", "_").ToLower());
 
+            if (!DirectoryExists(uploads))
+            {
+                CreateDirectory(uploads);
+                return result;
+            }
+
             var wwwrootDir = "wwwroot/";
             string relativeFile = string.Empty;
 

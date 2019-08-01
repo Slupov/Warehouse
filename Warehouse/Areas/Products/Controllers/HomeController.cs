@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,6 @@ namespace Warehouse.Web.Areas.Products.Controllers
         private readonly UserManager<ApplicationUser> _users;
         private readonly IMediaTransferer _mediaTransferer;
 
-
         public HomeController(IGenericDataService<Product> products,
             IMediaTransferer mediaTransferer,
             UserManager<ApplicationUser> users)
@@ -36,7 +36,11 @@ namespace Warehouse.Web.Areas.Products.Controllers
                 return NotFound();
             }
 
-            var vm = await _products.GetListAsync(x => x.Company.Id == companyId);
+            var vm = (await _products.GetListAsync(x => x.Company.Id == companyId)).Select(x => new ProductIndexViewModel()
+            {
+                Product = x,
+                ThumbnailPath = (_mediaTransferer.GetProductPhotosPaths(x).GetAwaiter().GetResult()).FirstOrDefault()
+            }).ToList();
 
             return View(vm);
         }

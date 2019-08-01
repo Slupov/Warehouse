@@ -19,9 +19,16 @@
         contentType: false
     }).done(function (result) {
         // do something with the result now
-        var newImage = $(`<img src=${result} alt="ASP.NET" class="img-responsive"/>`);
+        var newImage = $(`
+                <div class="product-thumbnail-container">
+                    <img src=${result} alt="ASP.NET" class="img-responsive"/>
+                </div>`);
 
         $("#product-gallery").append(newImage);
         console.log(result);
     });
+}
+
+function deletePhoto(photoId, photoPath) {
+    
 }
