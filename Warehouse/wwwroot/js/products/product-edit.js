@@ -19,6 +19,9 @@
         contentType: false
     }).done(function (result) {
         // do something with the result now
+        var newImage = $(`<img src=${result} alt="ASP.NET" class="img-responsive"/>`);
+
+        $("#product-gallery").append(newImage);
         console.log(result);
     });
 }
