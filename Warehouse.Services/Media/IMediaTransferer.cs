@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Warehouse.Data.Models;
 
@@ -17,6 +18,11 @@ namespace Warehouse.Services.Media
         void RenameFile(string path, string newPath);
 
         void UploadCompanyLogo(Company company, IFormFile logo);
-        void AddProductPhoto(Product company, IFormFile logo);
+        Task<bool> UploadProductPhoto(Product product, IFormFile photo);
+
+        void DeleteCompanyMedia(Company company);
+
+        Task<List<string>> GetProductPhotosPaths(Product product);
+
     }
 }

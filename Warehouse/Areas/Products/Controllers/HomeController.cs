@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Warehouse.Data.Models;
 using Warehouse.Services;
+using Warehouse.Services.Media;
 using Warehouse.Web.Areas.Products.Models;
 
 namespace Warehouse.Web.Areas.Products.Controllers
@@ -15,12 +16,16 @@ namespace Warehouse.Web.Areas.Products.Controllers
     {
         private readonly IGenericDataService<Product> _products;
         private readonly UserManager<ApplicationUser> _users;
+        private readonly IMediaTransferer _mediaTransferer;
+
 
         public HomeController(IGenericDataService<Product> products,
+            IMediaTransferer mediaTransferer,
             UserManager<ApplicationUser> users)
         {
-            _products = products;
-            _users    = users;
+            _mediaTransferer = mediaTransferer;
+            _products        = products;
+            _users           = users;
         }
 
         // GET: Products/Home
@@ -65,10 +70,12 @@ namespace Warehouse.Web.Areas.Products.Controllers
         {
             var vm = new ProductEditCreateViewModel();
             vm.Product = new Product();
+            vm.Product.Company = (await _users.GetUserAsync(User)).Company;
 
-            vm.Places = new List<SelectListItem>();
-            vm.MeasureUnits = new List<SelectListItem>();
-            vm.ProductGroups = new List<SelectListItem>();
+            vm.Places                = new List<SelectListItem>();
+            vm.MeasureUnits          = new List<SelectListItem>();
+            vm.ProductGroups         = new List<SelectListItem>();
+            vm.OutProductPhotosPaths = new List<string>();
 
             var company = (await _users.GetUserAsync(User)).Company;
 
@@ -107,17 +114,18 @@ namespace Warehouse.Web.Areas.Products.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product product)
+        public async Task<IActionResult> Create(ProductEditCreateViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                product.Company = (await _users.GetUserAsync(User)).Company;
-                
-                _products.Add(product);
-                return RedirectToAction(nameof(Index), new {companyId = product.Company.Id});
+                vm.Product.Company = (await _users.GetUserAsync(User)).Company;
+
+                _products.Add(vm.Product);
+
+                return RedirectToAction(nameof(Index), new {companyId = vm.Product.Company.Id});
             }
 
-            return View(product);
+            return View(vm);
         }
 
         // GET: Products/Home/Edit/5
@@ -136,6 +144,7 @@ namespace Warehouse.Web.Areas.Products.Controllers
 
             var vm = await GenerateProductCreateEditViewModel();
             vm.Product = product;
+            vm.OutProductPhotosPaths = (await _mediaTransferer.GetProductPhotosPaths(product));
 
             return View(vm);
         }

@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Warehouse.Data.Models;
 using Warehouse.Services;
-using Warehouse.Services.ApiServices;
 using Warehouse.Services.Media;
 using Warehouse.Web.Areas.Company.Models;
 
@@ -93,6 +91,7 @@ namespace Warehouse.Web.Areas.Company.Controllers
 
                 //TODO Stoyan Lupov 23 July, 2019 Make path dynamically
                 var returnUrl = "/settings/home/edit?companyId=" + vm.Company.ApplicationSettings.Id;
+
                 return LocalRedirect(returnUrl);
             }
 
@@ -120,7 +119,7 @@ namespace Warehouse.Web.Areas.Company.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,IdentificationCode,ContactsId,OwnerName,ApplicationSettingsId")] Data.Models.Company company)
+        public async Task<IActionResult> Edit(int id, Data.Models.Company company)
         {
             if (id != company.Id)
             {
@@ -171,6 +170,9 @@ namespace Warehouse.Web.Areas.Company.Controllers
         {
             var company = await _companies.GetSingleOrDefaultAsync(x => x.Id == id);
             _companies.Remove(company);
+
+            //Remove media for company
+            _mediaTransferer.DeleteCompanyMedia(company);
 
             return RedirectToAction(nameof(Index));
         }

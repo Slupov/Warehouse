@@ -10,7 +10,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Product.PlaceId" class="control-label"></label>
-                <select asp-for="Product.PlaceId" asp-items="@Model.Places" class ="form-control"></select>
+                <select asp-for="Product.PlaceId" asp-items="@Model.Places" class="form-control"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Product.Name" class="control-label"></label>
@@ -24,11 +24,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="Product.MeasureUnitId" class="control-label"></label>
-                <select asp-for="Product.MeasureUnitId" class ="form-control" asp-items="@Model.MeasureUnits"></select>
+                <select asp-for="Product.MeasureUnitId" class="form-control" asp-items="@Model.MeasureUnits"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Product.ProductGroupId" class="control-label"></label>
-                <select asp-for="Product.ProductGroupId" class ="form-control" asp-items="@Model.ProductGroups"></select>
+                <select asp-for="Product.ProductGroupId" class="form-control" asp-items="@Model.ProductGroups"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Product.RetailPrice" class="control-label"></label>
@@ -71,3 +71,7 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript" src="~/js/products/product-edit-gallery.js"></script>
+}
