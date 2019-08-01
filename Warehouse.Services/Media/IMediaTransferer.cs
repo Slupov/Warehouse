@@ -21,6 +21,7 @@ namespace Warehouse.Services.Media
         Task<bool> UploadProductPhoto(Product product, IFormFile photo);
 
         void DeleteCompanyMedia(Company company);
+        Task<bool> DeleteProductPhoto(int productId, string filePath);
 
         Task<List<string>> GetProductPhotosPaths(Product product);
     }

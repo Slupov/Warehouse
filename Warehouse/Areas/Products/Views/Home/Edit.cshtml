@@ -79,8 +79,8 @@
             {
                 <div class="product-thumbnail-container">
                     <img src=@path alt="ASP.NET" class="img-responsive" />
-                    <button class="btn-danger">
-                        <i class="fa fa-window-close-o" aria-hidden="true" onclick=""></i>
+                    <button class="btn-danger" onclick="deletePhoto(@Model.Product.Id, '@path')">
+                        <i class="fa fa-window-close-o" aria-hidden="true"></i>
                     </button>
                 </div>
             }

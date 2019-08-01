@@ -32,5 +32,19 @@ namespace Warehouse.Web.Areas.API.Controllers
 
             return Forbid();
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteProductPhoto(int productId,
+            string filePath)
+        {
+            var result = await _mediaTransferer.DeleteProductPhoto(productId, filePath);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return Forbid();
+        }
     }
 }

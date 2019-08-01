@@ -63,6 +63,30 @@ namespace Warehouse.Services.Media
             }
         }
 
+        public async Task<bool> DeleteProductPhoto(int productId, string relativeFilePath)
+        {
+            var product = await _products.GetSingleOrDefaultAsync(x => x.Id == productId);
+
+            if (product is null)
+            {
+                return false;
+            }
+
+            var uploads = GetProductImagesPath(product);
+
+            if (!DirectoryExists(uploads))
+            {
+                return false;
+            }
+
+            var file = Path.Combine(uploads,
+                relativeFilePath.Substring(relativeFilePath.LastIndexOf("/", StringComparison.Ordinal) + 1));
+
+            File.Delete(file);
+
+            return true;
+        }
+
         public async Task<List<string>> GetProductPhotosPaths(Product product)
         {
             List<string> result = new List<string>();
@@ -96,8 +120,7 @@ namespace Warehouse.Services.Media
 
         public async Task<bool> UploadProductPhoto(Product product, IFormFile photo)
         {
-            var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "images", "companies",
-                product.Company.IdentificationCode, "products", product.Name.Replace(" ", "_").ToLower());
+            var uploads = GetProductImagesPath(product);
 
             if (!DirectoryExists(uploads))
             {
@@ -143,6 +166,14 @@ namespace Warehouse.Services.Media
                     await logo.CopyToAsync(fileStream);
                 }
             }
+        }
+
+        private string GetProductImagesPath(Product product)
+        {
+            var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "images", "companies",
+                product.Company.IdentificationCode, "products", product.Name.Replace(" ", "_").ToLower());
+
+            return uploads;
         }
     }
 }

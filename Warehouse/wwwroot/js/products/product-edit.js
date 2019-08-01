@@ -29,6 +29,20 @@
     });
 }
 
-function deletePhoto(photoId, photoPath) {
-    
+function deletePhoto(productId, photoPath) {
+    var data = {
+        productId: productId,
+        filePath: photoPath
+    };
+
+    $.ajax({
+        url: '/api/products/deleteproductphoto',
+        type: 'DELETE',
+        data: data,
+        success: function (result) {
+            console.alert("DONE");
+
+            // Do something with the result
+        }
+    });
 }
