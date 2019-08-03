@@ -94,31 +94,7 @@ namespace Warehouse.Services.Media
                 File.Delete(photoFile.FullName);
 
                 //rename all files with ids higher than the deleted one
-                var toRenameId = photoId + 1;
-
-                while (true)
-                {
-                    var toRenameFile = productPhotosFiles.FirstOrDefault(x =>
-                    {
-                        var nameWithoutExt = x.Name.Substring(0, x.Name.IndexOf(x.Extension,
-                                StringComparison.Ordinal));
-
-                        return (0 == String.CompareOrdinal(nameWithoutExt,
-                                    toRenameId.ToString()));
-                    });
-
-                    if (toRenameFile is null)
-                    {
-                        break;
-                    }
-
-                    var newName = Path.Combine(toRenameFile.DirectoryName, 
-                        (toRenameId - 1).ToString() + toRenameFile.Extension);
-
-                    RenameFile(toRenameFile.FullName, newName);
-
-                    ++toRenameId;
-                }
+                DecrementFileNames(productPhotosFiles, photoId);
 
                 return true;
             }
@@ -220,6 +196,36 @@ namespace Warehouse.Services.Media
                 product.Company.IdentificationCode, "products", product.Name.Replace(" ", "_").ToLower());
 
             return uploads;
+        }
+
+        private void DecrementFileNames(List<FileInfo> files, int fromPhotoId)
+        {
+            //rename all files with ids higher than the deleted one
+            var toRenameId = fromPhotoId + 1;
+
+            while (true)
+            {
+                var toRenameFile = files.FirstOrDefault(x =>
+                {
+                    var nameWithoutExt = x.Name.Substring(0, x.Name.IndexOf(x.Extension,
+                        StringComparison.Ordinal));
+
+                    return (0 == String.CompareOrdinal(nameWithoutExt,
+                                toRenameId.ToString()));
+                });
+
+                if (toRenameFile is null)
+                {
+                    break;
+                }
+
+                var newName = Path.Combine(toRenameFile.DirectoryName,
+                    (toRenameId - 1).ToString() + toRenameFile.Extension);
+
+                RenameFile(toRenameFile.FullName, newName);
+
+                ++toRenameId;
+            }
         }
     }
 }
