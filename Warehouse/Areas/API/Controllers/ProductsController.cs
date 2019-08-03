@@ -27,7 +27,8 @@ namespace Warehouse.Web.Areas.API.Controllers
 
             if (await _mediaTransferer.UploadProductPhoto(product, vm.UploadPhoto))
             {
-                return Ok((await _mediaTransferer.GetProductPhotosPaths(product)).Last());
+                var relativePaths = (await _mediaTransferer.GetProductPhotosFilesRelative(product));
+                return Ok(relativePaths.Last());
             }
 
             return Forbid();

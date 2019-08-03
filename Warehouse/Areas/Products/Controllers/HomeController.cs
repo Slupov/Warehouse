@@ -36,11 +36,14 @@ namespace Warehouse.Web.Areas.Products.Controllers
                 return NotFound();
             }
 
-            var vm = (await _products.GetListAsync(x => x.Company.Id == companyId)).Select(x => new ProductIndexViewModel()
-            {
-                Product = x,
-                ThumbnailPath = (_mediaTransferer.GetProductPhotosPaths(x).GetAwaiter().GetResult()).FirstOrDefault()
-            }).ToList();
+            var vm =
+                (await _products.GetListAsync(x => x.Company.Id == companyId))
+                .Select(x => new ProductIndexViewModel()
+                {
+                    Product = x,
+                    ThumbnailPath = (_mediaTransferer.GetProductPhotosFilesRelative(x).GetAwaiter().GetResult())
+                        .FirstOrDefault()
+                });
 
             return View(vm);
         }
@@ -148,7 +151,11 @@ namespace Warehouse.Web.Areas.Products.Controllers
 
             var vm = await GenerateProductCreateEditViewModel();
             vm.Product = product;
-            vm.OutProductPhotosPaths = (await _mediaTransferer.GetProductPhotosPaths(product));
+
+            //delete
+            await _mediaTransferer.GetProductPhotosFiles(product);
+
+            vm.OutProductPhotosPaths = (await _mediaTransferer.GetProductPhotosFilesRelative(product));
 
             return View(vm);
         }

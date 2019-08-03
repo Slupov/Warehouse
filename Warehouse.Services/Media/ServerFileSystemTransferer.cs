@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -79,35 +80,55 @@ namespace Warehouse.Services.Media
                 return false;
             }
 
+            var productPhotosFiles = (await GetProductPhotosFiles(product));
 
-            // find file in product uploads directory
-            var file = Directory.GetFiles(uploads)
-                .Where(path =>
-                {
-                    var directoryString      = "\\";
-                    var indexOfLastDirectory = path.LastIndexOf(directoryString, StringComparison.Ordinal);
-                    var indexOfLastDot       = path.LastIndexOf(".", StringComparison.Ordinal);
-
-                    var photoIdStr     = photoId.ToString();
-                    var currPhotoIdStr = path.Substring(indexOfLastDirectory + directoryString.Length,
-                                                        indexOfLastDot - indexOfLastDirectory - 1);
-                    
-                    return (0 == String.CompareOrdinal(photoIdStr, currPhotoIdStr));
-                })
-                .FirstOrDefault();
-
-            if (!string.IsNullOrEmpty(file))
+            var photoFile = productPhotosFiles.Where(x =>
             {
-                File.Delete(file);
+                var nameWithoutExt = x.Name.Substring(0, x.Name.IndexOf(x.Extension, StringComparison.Ordinal));
+                return (0 == String.CompareOrdinal(nameWithoutExt, photoId.ToString()));
+            }).FirstOrDefault();
+
+            if (photoFile != null && photoFile.Exists)
+            {
+                productPhotosFiles.Remove(photoFile);
+                File.Delete(photoFile.FullName);
+
+                //rename all files with ids higher than the deleted one
+                var toRenameId = photoId + 1;
+
+                while (true)
+                {
+                    var toRenameFile = productPhotosFiles.FirstOrDefault(x =>
+                    {
+                        var nameWithoutExt = x.Name.Substring(0, x.Name.IndexOf(x.Extension,
+                                StringComparison.Ordinal));
+
+                        return (0 == String.CompareOrdinal(nameWithoutExt,
+                                    toRenameId.ToString()));
+                    });
+
+                    if (toRenameFile is null)
+                    {
+                        break;
+                    }
+
+                    var newName = Path.Combine(toRenameFile.DirectoryName, 
+                        (toRenameId - 1).ToString() + toRenameFile.Extension);
+
+                    RenameFile(toRenameFile.FullName, newName);
+
+                    ++toRenameId;
+                }
+
                 return true;
             }
 
             return false;
         }
 
-        public async Task<List<string>> GetProductPhotosPaths(Product product)
+        public async Task<List<FileInfo>> GetProductPhotosFiles(Product product)
         {
-            List<string> result = new List<string>();
+            List<FileInfo> result = new List<FileInfo>();
 
             var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "images", "companies",
                 product.Company.IdentificationCode, "products", product.Name.Replace(" ", "_").ToLower());
@@ -118,22 +139,29 @@ namespace Warehouse.Services.Media
                 return result;
             }
 
-            var wwwrootDir = "wwwroot/";
-            string relativeFile = string.Empty;
-
             foreach (var file in Directory.EnumerateFiles(uploads))
             {
-                //turn current absolute file path to a relative one
-                relativeFile = file.Replace("\\", "/");
-
-                var wwwrootIdx = relativeFile.IndexOf(wwwrootDir);
-
-                relativeFile = "/" + relativeFile.Substring(wwwrootIdx + wwwrootDir.Length);
-
-                result.Add(relativeFile);
+                result.Add(new FileInfo(file));
             }
 
             return result;
+        }
+
+        public async Task<List<string>> GetProductPhotosFilesRelative(Product product)
+        {
+            var files = (await GetProductPhotosFiles(product))
+                .Select(f =>
+                {
+                    var relativePath = f.FullName.Replace("\\", "/");
+
+                    relativePath = relativePath.Substring(relativePath.IndexOf("images",
+                        StringComparison.Ordinal));
+                    relativePath = "/" + relativePath;
+
+                    return relativePath;
+                }).ToList();
+
+            return files;
         }
 
         public async Task<bool> UploadProductPhoto(Product product, IFormFile photo)

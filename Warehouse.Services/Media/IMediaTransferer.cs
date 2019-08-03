@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -23,6 +24,7 @@ namespace Warehouse.Services.Media
         void DeleteCompanyMedia(Company company);
         Task<bool> DeleteProductPhoto(int productId, int photoId);
 
-        Task<List<string>> GetProductPhotosPaths(Product product);
+        Task<List<FileInfo>> GetProductPhotosFiles(Product product);
+        Task<List<string>> GetProductPhotosFilesRelative(Product product);
     }
 }
