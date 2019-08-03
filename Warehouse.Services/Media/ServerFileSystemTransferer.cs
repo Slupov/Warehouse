@@ -63,7 +63,7 @@ namespace Warehouse.Services.Media
             }
         }
 
-        public async Task<bool> DeleteProductPhoto(int productId, string relativeFilePath)
+        public async Task<bool> DeleteProductPhoto(int productId, int photoId)
         {
             var product = await _products.GetSingleOrDefaultAsync(x => x.Id == productId);
 
@@ -79,12 +79,30 @@ namespace Warehouse.Services.Media
                 return false;
             }
 
-            var file = Path.Combine(uploads,
-                relativeFilePath.Substring(relativeFilePath.LastIndexOf("/", StringComparison.Ordinal) + 1));
 
-            File.Delete(file);
+            // find file in product uploads directory
+            var file = Directory.GetFiles(uploads)
+                .Where(path =>
+                {
+                    var directoryString      = "\\";
+                    var indexOfLastDirectory = path.LastIndexOf(directoryString, StringComparison.Ordinal);
+                    var indexOfLastDot       = path.LastIndexOf(".", StringComparison.Ordinal);
 
-            return true;
+                    var photoIdStr     = photoId.ToString();
+                    var currPhotoIdStr = path.Substring(indexOfLastDirectory + directoryString.Length,
+                                                        indexOfLastDot - indexOfLastDirectory - 1);
+                    
+                    return (0 == String.CompareOrdinal(photoIdStr, currPhotoIdStr));
+                })
+                .FirstOrDefault();
+
+            if (!string.IsNullOrEmpty(file))
+            {
+                File.Delete(file);
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<List<string>> GetProductPhotosPaths(Product product)

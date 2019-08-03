@@ -75,11 +75,13 @@
 
     <div id="product-gallery">
         @{
+            var imageId = 1;
+
             foreach (var path in Model.OutProductPhotosPaths)
             {
-                <div class="product-thumbnail-container">
+                <div class="product-thumbnail-container" data-imageId="@imageId">
                     <img src=@path alt="ASP.NET" class="img-responsive" />
-                    <button class="btn-danger" onclick="deletePhoto(@Model.Product.Id, '@path')">
+                    <button class="btn-danger" onclick="deletePhoto(@Model.Product.Id, '@imageId', this)">
                         <i class="fa fa-window-close-o" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -97,7 +99,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-10">
-                <input type="button" value="Upload" onclick="submitForm(this.form)">
+                <input type="button" value="Upload" onclick="submitForm(this.form, @Model.Product.Id)">
             </div>
         </div>
     </form>

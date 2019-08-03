@@ -1,4 +1,4 @@
-﻿function submitForm(form) {
+﻿function submitForm(form, productId) {
     var formAction = $(form).attr("action");
     var fdata = new FormData();
 
@@ -18,10 +18,15 @@
         processData: false,
         contentType: false
     }).done(function (result) {
+        var newImageId = $("#product-gallery").children().length + 1;
+
         // do something with the result now
         var newImage = $(`
-                <div class="product-thumbnail-container">
+                <div class="product-thumbnail-container" data-imageId="${newImageId}">
                     <img src=${result} alt="ASP.NET" class="img-responsive"/>
+                    <button class="btn-danger" onclick="deletePhoto(${productId}, '${newImageId}', this)">
+                        <i class="fa fa-window-close-o" aria-hidden="true"></i>
+                    </button>
                 </div>`);
 
         $("#product-gallery").append(newImage);
@@ -29,10 +34,10 @@
     });
 }
 
-function deletePhoto(productId, photoPath) {
+function deletePhoto(productId, imageId, caller) {
     var data = {
         productId: productId,
-        filePath: photoPath
+        imageId: imageId
     };
 
     $.ajax({
@@ -40,9 +45,7 @@ function deletePhoto(productId, photoPath) {
         type: 'DELETE',
         data: data,
         success: function (result) {
-            console.alert("DONE");
-
-            // Do something with the result
+            $(caller).parent().remove();
         }
     });
 }

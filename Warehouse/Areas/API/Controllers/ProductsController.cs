@@ -34,10 +34,9 @@ namespace Warehouse.Web.Areas.API.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteProductPhoto(int productId,
-            string filePath)
+        public async Task<IActionResult> DeleteProductPhoto(int productId, int imageId)
         {
-            var result = await _mediaTransferer.DeleteProductPhoto(productId, filePath);
+            var result = await _mediaTransferer.DeleteProductPhoto(productId, imageId);
 
             if (result)
             {
