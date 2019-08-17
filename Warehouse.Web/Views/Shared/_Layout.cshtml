@@ -18,6 +18,7 @@
               integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
 
     @RenderSection("Styles", required: false)
 
@@ -25,97 +26,20 @@
 <body>
     <!-- preloader start -->
     <div class="preloader">
-        <img src="images/preloader.gif" alt="preloader">
+        <img src="~/images/preloader.gif" alt="preloader">
     </div>
     <!-- preloader end -->
     <!-- navigation -->
     <div class="naviagtion fixed-top transition">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-dark p-0">
-                <a class="navbar-brand p-0" href="index.html"><img src="images/logo/logo.png" alt="Agico"></a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand p-0"><img src="images/logo/logo.png" alt="Agico"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse text-center" id="navigation">
                     <ul class="navbar-nav mx-auto">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-white active text-capitalize" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item text-color" href="index.html">Homepage 1</a>
-                                <a class="dropdown-item text-color" href="homepage2.html">Homepage 2</a>
-                                <a class="dropdown-item text-color" href="homepage3.html">Homepage 3</a>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white text-capitalize" href="about.html">about</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white text-capitalize" href="services.html">services</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link text-white text-capitalize dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">pages</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item text-color" href="team.html">Our Team</a>
-                                <a class="dropdown-item text-color" href="pricing.html">Our Pricing</a>
-                                <a class="dropdown-item text-color" href="career.html">Our Career</a>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white text-capitalize" href="blog.html">blog</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white text-capitalize" href="contact.html">contact</a>
-                        </li>
-                    </ul>
-                    <a href="#" class="btn btn-outline-primary text-white ml-3">sign up</a>
-                </div>
-            </nav>
-        </div>
-    </div>
-    <!-- nav part end -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Warehouse</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
 
                         @if (User.Identity.IsAuthenticated)
                         {
@@ -129,31 +53,115 @@
 
                             @await Component.InvokeAsync(nameof(NomenclaturesTabViewComponent).Replace("ViewComponent", ""))
                         }
-
-
                     </ul>
                 </div>
+
+                <partial name="_LoginPartial" />
+            </nav>
+        </div>
+    </div>
+    <!-- nav part end -->
+
+    @if (ViewData["IsHomePage"] is null)
+    {
+        <section class="page-title page-title-overlay bg-cover" data-background="images/background/about.jpg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <h1 class="text-white position-relative">@ViewData["Title"]<span class="watermark-sm">@ViewData["Title"]</span></h1>
+                        @Html.Raw(@ViewData["TitleDescription"])
+                    </div>
+
+                    @* //TODO Stoyan Lupov 17 August, 2019 Implement hyperlinks to area, controller *@
+                    <div class="col-lg-3 ml-auto align-self-end">
+                        <nav class="position-relative zindex-1" aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-end bg-transparent">
+                                <li class="breadcrumb-item"><a href="index.html" class="text-white">@ViewContext.RouteData.Values["area"]</a></li>
+                                <li class="breadcrumb-item"><a href="index.html" class="text-white">@ViewContext.RouteData.Values["controller"]</a></li>
+                                <li class="breadcrumb-item text-white" aria-current="page">@ViewContext.RouteData.Values["action"]</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
             </div>
-        </nav>
-    </header>
+        </section>
 
-
-
-
-
-
-
-    <div class="container">
+        <div class="container">
+            <partial name="_CookieConsentPartial" />
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    }
+    else
+    {
         <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
-    </div>
+    }
+    
+<!-- footer part start -->
+    <footer class="bg-secondary pt-5">
+        <section class="section border-bottom border-color">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-md-5 mb-4 mb-md-0">
+                        <img src="images/logo/logo.png" class="mb-4" alt="agico">
+                        <p class="text-light mb-4">Lorem ipsum dolor amet consectetur adipisicing elit sed eiusm tempor incididunt ut labore dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamaboris nisi ut aliquip.exea commodo consequat. Duis aute irure dolor
+                            in reprehenderit.</p>
+                        <ul class="list-inline social-icons">
+                            <li class="list-inline-item"><a href="http://facebook.com/themefisher" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            <li class="list-inline-item"><a href="http://twitter.com/themefisher" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li class="list-inline-item"><a href="https://www.youtube.com/channel/UCx9qVW8VF0LmTi4OF2F8YdA/featured" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                            <li class="list-inline-item"><a href="http://github.com/themefisher" target="_blank"><i class="fa fa-github"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <h4 class="text-white mb-4">Services</h4>
+                        <ul class="list-styled list-hover-underline">
+                            <li class="mb-3 text-light"><a href="about.html" class="text-light">Company History</a></li>
+                            <li class="mb-3 text-light"><a href="about.html" class="text-light">About us</a></li>
+                            <li class="mb-3 text-light"><a href="contact.html" class="text-light">Contact us</a></li>
+                            <li class="mb-3 text-light"><a href="services.html" class="text-light">Services</a></li>
+                            <li class="mb-3 text-light"><a href="#" class="text-light">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <h4 class="text-white mb-4">Contact Info</h4>
+                        <p class="text-light">9567 Turner Trace Apt. 466 North Willie, BC C3G8A4</p>
+                        <ul class="list-unstyled">
+                            <li class="mb-3"><a class="text-light" href="tel:+211234565523">+21 123 456 5523</a></li>
+                            <li class="mb-3"><a class="text-light" href="mailto:info@agico.com">info@agico.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- footer part end -->
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2019 - Warehouse - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+        <!-- copyright part start -->
+        <section class="py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-left mb-3 mb-md-0">
+                        <p class="mb-0 text-light">Copyright &copy;
+                            <script>
+                                var CurrentYear = new Date().getFullYear()
+                                document.write(CurrentYear)
+                            </script>
+                            a theme by <a href="https://themefisher.com">themefisher.com</a></p>
+                    </div>
+                    <div class="col-md-6 text-md-right text-center">
+                        <ul class="list-inline">
+                            <li class="list-inline-item"><a href="#" class="text-light">Terms of Service</a></li>
+                            <li class="list-inline-item">| &nbsp;<a href="#" class="text-light">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- copyright part end -->
     </footer>
 
     <environment include="Development">

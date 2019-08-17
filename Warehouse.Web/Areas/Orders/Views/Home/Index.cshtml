@@ -1,5 +1,11 @@
-﻿@model IEnumerable<Warehouse.Data.Models.Order>
+﻿@using Warehouse.Web.Infrastructure
+@model IEnumerable<Warehouse.Data.Models.Order>
 
+@{
+    ViewData["Title"]            = "Orders List";
+    ViewData["TitleDescription"] = HtmlBuilder.BuildTitleDescription("Here you can see a list of all the orders made by customers to your " +
+                                                                     "store.");
+}
 <table class="table">
     <thead>
         <tr>

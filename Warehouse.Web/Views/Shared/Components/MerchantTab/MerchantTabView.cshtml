@@ -1,13 +1,9 @@
 ﻿@model Warehouse.Web.Models.MerchantTabViewModel
 
-<ul class="navbar-nav ml-auto">
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Търговски екран
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" asp-area="" asp-controller="" asp-action="" asp-route-id="">Продажба</a>
-            <a class="dropdown-item" asp-area="" asp-controller="" asp-action="" asp-route-id="">Поръчка</a>
-        </div>
-    </li>
-</ul>
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle text-white active text-capitalize" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Търговски екран</a>
+    <div class="dropdown-menu">
+        <a class="dropdown-item" asp-area="" asp-controller="" asp-action="" asp-route-id="">Продажба</a>
+        <a class="dropdown-item" asp-area="" asp-controller="" asp-action="" asp-route-id="">Поръчка</a>
+    </div>
+</li>
