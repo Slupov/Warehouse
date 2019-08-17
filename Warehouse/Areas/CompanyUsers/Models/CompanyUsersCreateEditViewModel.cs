@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Warehouse.Data.Models;
 
 namespace Warehouse.Web.Areas.CompanyUsers.Models
@@ -7,6 +9,7 @@ namespace Warehouse.Web.Areas.CompanyUsers.Models
     {
         public ApplicationUser User { get; set; }
 
-        public IEnumerable<string> UserRoles { get; set; }
+        public List<SelectListItem> UserRoles { get; set; }
+        public string[] SelectedUserRoles { get; set; }
     }
 }

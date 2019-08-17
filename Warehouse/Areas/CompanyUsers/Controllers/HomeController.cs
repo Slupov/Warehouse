@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Warehouse.Data.Models;
@@ -85,10 +86,10 @@ namespace Warehouse.Web.Areas.CompanyUsers.Controllers
                     foreach (var role in editViewModel.UserRoles)
                     {
                         //check if its a valid role name
-                        if (!string.IsNullOrEmpty(role) && 
-                            await _roleManager.RoleExistsAsync(role))
+                        if (!string.IsNullOrEmpty(role.Value) && 
+                            await _roleManager.RoleExistsAsync(role.Value))
                         {
-                            await _userManager.AddToRoleAsync(editViewModel.User, role);
+                            await _userManager.AddToRoleAsync(editViewModel.User, role.Value);
                         }        
                     }
 
@@ -135,7 +136,14 @@ namespace Warehouse.Web.Areas.CompanyUsers.Controllers
             var vm  = new CompanyUsersCreateEditViewModel();
             vm.User = user;
 
-            vm.UserRoles = await _userManager.GetRolesAsync(user);
+            var registeredRoles = _roleManager.Roles.Select(c => new SelectListItem
+            {
+                Value = c.Name,
+                Text  = c.Name,
+                Selected = User.IsInRole(c.Name)
+            }).ToList();
+
+            vm.UserRoles = registeredRoles;
 
             return View(vm);
         }
@@ -158,6 +166,19 @@ namespace Warehouse.Web.Areas.CompanyUsers.Controllers
                 {
                     var user = await _userManager.FindByIdAsync(id);
                     user.PhoneNumber = vm.User.PhoneNumber;
+
+                    foreach (var role in _roleManager.Roles.ToList())
+                    {
+                        if (vm.SelectedUserRoles.Contains(role.Name))
+                        {
+                            await _userManager.AddToRoleAsync(user, role.Name);
+                        }
+                        else if (User.IsInRole(role.Name))
+                        {
+                            // not contained in selected but user is in this role
+                            await _userManager.RemoveFromRoleAsync(user, role.Name);
+                        }
+                    }
 
                     await _userManager.UpdateAsync(user);
                 }
