@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <UserSecretsId>aspnet-Warehouse-20C464D9-7727-485E-B089-2E99E161AF57</UserSecretsId>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Areas\API\Data\" />
+    <Folder Include="Areas\API\Views\" />
+    <Folder Include="Areas\BankAccounts\Data\" />
+    <Folder Include="Areas\BankAccounts\Models\" />
+    <Folder Include="Areas\CompanyUsers\Data\" />
+    <Folder Include="Areas\Company\Data\" />
+    <Folder Include="Areas\IncomeExpenses\Data\" />
+    <Folder Include="Areas\IncomeExpenses\Models\" />
+    <Folder Include="Areas\MeasureUnits\Data\" />
+    <Folder Include="Areas\MeasureUnits\Models\" />
+    <Folder Include="Areas\Orders\Data\" />
+    <Folder Include="Areas\Places\Data\" />
+    <Folder Include="Areas\Places\Models\" />
+    <Folder Include="Areas\ProductGroups\Data\" />
+    <Folder Include="Areas\ProductGroups\Models\" />
+    <Folder Include="Areas\Products\Data\" />
+    <Folder Include="Areas\Settings\Data\" />
+    <Folder Include="Areas\Settings\Models\" />
+    <Folder Include="Areas\Subscriptions\Data\" />
+    <Folder Include="Areas\Subscriptions\Models\" />
+    <Folder Include="Data\" />
+    <Folder Include="wwwroot\images\companies\202434314\products\kucheska_hrana\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\Warehouse.Data\Warehouse.Data.csproj" />
+    <ProjectReference Include="..\Warehouse.Services\Warehouse.Services.csproj" />
+    <ProjectReference Include="..\Warehouse.Utils\Warehouse.Utils.csproj" />
+  </ItemGroup>
+
+</Project>

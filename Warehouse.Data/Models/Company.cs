@@ -30,7 +30,7 @@ namespace Warehouse.Data.Models
 
         public virtual ICollection<Place> Places { get; set; }
         public virtual ICollection<IncomeExpense> IncomeExpenses { get; set; }
-        public virtual ICollection<Payment> Payments { get; set; }
+        public virtual ICollection<Order> Payments { get; set; }
 
         public virtual ICollection<Subscription> Subscriptions { get; set; }
 

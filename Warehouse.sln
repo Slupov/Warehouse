@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Warehouse.Web", "Warehouse\Warehouse.Web.csproj", "{63AE9EB9-6992-4F85-A80B-93BCF93F6C1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Warehouse.Web", "Warehouse.Web\Warehouse.Web.csproj", "{63AE9EB9-6992-4F85-A80B-93BCF93F6C1A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Warehouse.Data", "Warehouse.Data\Warehouse.Data.csproj", "{398D22A1-5740-427F-9232-AECFFEEC5249}"
 EndProject

@@ -21,7 +21,7 @@ namespace Warehouse.Data
         public DbSet<IncomeExpense> IncomeExpenses { get; set; }
         public DbSet<MeasureUnit> MeasureUnits { get; set; }
         public DbSet<Partner> Partners { get; set; }
-        public DbSet<Payment> Payments { get; set; }
+        public DbSet<Order> Payments { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductGroup> ProductGroups { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }

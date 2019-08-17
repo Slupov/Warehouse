@@ -5,9 +5,9 @@ using Warehouse.Data.Models;
 
 namespace Warehouse.Data.EntityConfigurations
 {
-    public class PaymentConfiguration : DbEntityConfiguration<Payment>
+    public class PaymentConfiguration : DbEntityConfiguration<Order>
     {
-        public override void Configure(EntityTypeBuilder<Payment> entity)
+        public override void Configure(EntityTypeBuilder<Order> entity)
         {
             entity.ToTable("Payments");
 
