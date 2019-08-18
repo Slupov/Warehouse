@@ -43,16 +43,18 @@ $(document).ready(function() {
     });
 
     // Background-images
-    $('[data-background]').each(function() {
+    $('[data-background]').each(function () {
+
+        //TODO Stoyan Lupov 18 August, 2019 That relative path does not work
         $(this).css({
-            'background-image': 'url(' + $(this).data('background') + ')'
+            'background': 'url(' + $(this).data('background') + ')'
         });
     });
 
     // venobox popup 
     $('.venobox').venobox();
 
-    //  Count Up
+    //  Count UpF
     function counter() {
         var oTop;
         if ($('.counter').length !== 0) {

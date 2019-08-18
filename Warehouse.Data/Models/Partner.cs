@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Warehouse.Data.Enums;
 
@@ -10,6 +11,7 @@ namespace Warehouse.Data.Models
     {
         public int Id { get; set; }
 
+        [Display(Name = "Име", Prompt = "Име")]
         public string Name { get; set; }
 
         public PartnerType PartnerType { get; set; }

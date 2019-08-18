@@ -1,6 +1,9 @@
 ﻿@model IEnumerable<Warehouse.Data.Models.Subscription>
 
-<h1>Index</h1>
+@{
+    ViewData["Title"] = "Subscriptions";
+    ViewData["TitleDescription"] = "Here you can see a list of all subscriptions linked to your company.";
+}
 
 <p>
     <a asp-action="Create">Плащане на абонамент</a>
@@ -34,33 +37,34 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Company.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RequestedOn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PayedOn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ForMonths)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ForUsers)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaymentStatus)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Company.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequestedOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PayedOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ForMonths)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ForUsers)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaymentStatus)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -1,13 +1,15 @@
 ﻿@model Warehouse.Web.Areas.Products.Models.ProductEditCreateViewModel
 
+@{
+    ViewData["Title"] = "Edit product";
+    ViewData["TitleDescription"] = "Here you can edit all details for the selected product.";
+}
+
 @section Styles {
     <link rel="stylesheet" href="~/css/products/product-edit.css" />
     <link rel="stylesheet" href="~/lib/font-awesome-4.7.0/css/font-awesome.min.css">
 }
 
-<h1>Edit</h1>
-
-<h4>Product</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">

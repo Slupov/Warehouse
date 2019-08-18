@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Warehouse.Data.Models
@@ -8,6 +9,7 @@ namespace Warehouse.Data.Models
     {
         public int Id { get; set; }
 
+        [Display(Name = "Име", Prompt = "Име")]
         public string Name { get; set; }
 
         public virtual Company Company { get; set; }

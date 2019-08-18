@@ -16,8 +16,10 @@ namespace Warehouse.Data.Models
         //1 unit => 5.5 BGN
         //2 unit => 5.45 BGN
         //3 unit => 5.445 BGN
+        [Display(Name = "Точност на единиците", Prompt = "Точност на единиците")]
         public byte PricesPrecisionUnits { get; set; }
 
+        [Display(Name = "Включват ли цените ДДС", Prompt = "Включват ли цените ДДС")]
         public bool? PricesIncludeVAT { get; set; }
 
         //TODO Stoyan Lupov 29 June, 2019 

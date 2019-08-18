@@ -1,13 +1,18 @@
 ﻿@model IEnumerable<Warehouse.Web.Areas.Products.Models.ProductIndexViewModel>
 
+@{
+    ViewData["Title"] = "Products";
+    ViewData["TitleDescription"] = "Here you can see a list of all products linked to your company.";
+}
+
 @section Styles {
-    <link rel="stylesheet" href="~/css/products/product-index.css"/>
+    <link rel="stylesheet" href="~/css/products/product-index.css" />
 }
 
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
 </p>
 
 <table class="table">
@@ -60,7 +65,7 @@
                     @if (!string.IsNullOrEmpty(item.ThumbnailPath))
                     {
                         <div class="product-thumbnail-container">
-                            <img src=@item.ThumbnailPath alt="ASP.NET" class="img-responsive"/>
+                            <img src=@item.ThumbnailPath alt="ASP.NET" class="img-responsive" />
                         </div>
                     }
                 </td>

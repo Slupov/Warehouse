@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace Warehouse.Web.Areas.Company.Models
 {
@@ -6,6 +7,7 @@ namespace Warehouse.Web.Areas.Company.Models
     {
         public Data.Models.Company Company { get; set; }
 
+        [Display(Prompt = "Лого на компанията")]
         public IFormFile CompanyAvatar { get; set; }
     }
 }

@@ -9,14 +9,16 @@ namespace Warehouse.Data.Models
         [Key]
         public int Id { get; set; }
 
+        [Display(Prompt = "Име на компания")]
         public string Name { get; set; }
 
-        [DisplayName("ЕИК/Id")]
+        [Display(Prompt = "ЕИК/Id")]
         public string IdentificationCode { get; set; }
 
         public virtual Contacts Contacts { get; set; }
         public int ContactsId { get; set; }
 
+        [Display(Prompt = "Собственик")]
         public string OwnerName { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }

@@ -2,8 +2,8 @@
 @model Warehouse.Web.Areas.CompanyUsers.Models.CompanyUsersCreateEditViewModel
 
 @{
-    ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Edit Company users";
+    ViewData["TitleDescription"] = "Here you can edit all details for the users in your company.";
 }
 
 <h1>Edit</h1>
@@ -14,22 +14,22 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input asp-for="User.Id" type="hidden"/>
-            <input asp-for="User.Company.Id" type="hidden"/>
+            <input asp-for="User.Id" type="hidden" />
+            <input asp-for="User.Company.Id" type="hidden" />
 
             <div class="form-group">
                 <label asp-for="User.UserName" class="control-label"></label>
-                <input asp-for="User.UserName" class="form-control" readonly/>
+                <input asp-for="User.UserName" class="form-control" readonly />
                 <span asp-validation-for="User.UserName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="User.Email" class="control-label"></label>
-                <input asp-for="User.Email" class="form-control" readonly/>
+                <input asp-for="User.Email" class="form-control" readonly />
                 <span asp-validation-for="User.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="User.Company.Name" class="control-label"></label>
-                <input asp-for="User.Company.Name" class="form-control" readonly/>
+                <input asp-for="User.Company.Name" class="form-control" readonly />
                 <span asp-validation-for="User.Company.Name" class="text-danger"></span>
             </div>
             <div class="form-group">

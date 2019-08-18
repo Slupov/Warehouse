@@ -1,56 +1,47 @@
 ﻿@model Warehouse.Web.Areas.Company.Models.CompanyCreateViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create a new Company";
+    ViewData["TitleDescription"] = "Create your own company.";
 }
 
-<h1>Create</h1>
-
-<h4>Company</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Company.IdentificationCode" class="control-label"></label>
                 <input asp-for="Company.IdentificationCode" class="form-control" />
                 <span asp-validation-for="Company.IdentificationCode" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Company.Name" class="control-label"></label>
-                <input asp-for="Company.Name" class="form-control" readonly/>
+                <input asp-for="Company.Name" class="form-control" readonly />
                 <span asp-validation-for="Company.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Company.OwnerName" class="control-label"></label>
                 <input asp-for="Company.OwnerName" class="form-control" />
                 <span asp-validation-for="Company.OwnerName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Company.Contacts.City" class="control-label"></label>
                 <input asp-for="Company.Contacts.City" class="form-control" />
                 <span asp-validation-for="Company.Contacts.City" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Company.Contacts.Address" class="control-label"></label>
                 <input asp-for="Company.Contacts.Address" class="form-control" />
                 <span asp-validation-for="Company.Contacts.Address" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Company.Contacts.Phone" class="control-label"></label>
                 <input asp-for="Company.Contacts.Phone" class="form-control" />
                 <span asp-validation-for="Company.Contacts.Phone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Company.Contacts.Email" class="control-label"></label>
                 <input asp-for="Company.Contacts.Email" class="form-control" value="@Model.Company.Contacts.Email" />
                 <span asp-validation-for="Company.Contacts.Email" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="CompanyAvatar" class="control-label"></label>
-                <input asp-for="CompanyAvatar" class="form-control"/>
+                <input asp-for="CompanyAvatar" class="form-control" />
                 <span asp-validation-for="CompanyAvatar" class="text-danger"></span>
             </div>
 

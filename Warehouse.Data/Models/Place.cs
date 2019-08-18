@@ -14,7 +14,8 @@ namespace Warehouse.Data.Models
         [Key]
         public int Id { get; set; }
 
-        public String Name { get; set; }
+        [Display(Name = "Име", Prompt = "Име")]
+        public string Name { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
 

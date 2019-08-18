@@ -1,0 +1,20 @@
+﻿@* //TODO Stoyan Lupov 17 August, 2019 Implement hyperlinks to area, controller *@
+@{
+    var area       = ViewContext.RouteData.Values["area"];
+    var controller = ViewContext.RouteData.Values["controller"];
+    var action     = ViewContext.RouteData.Values["action"];
+}
+
+<div class="col-lg-3 ml-auto align-self-end">
+    <nav class="position-relative zindex-1" aria-label="breadcrumb">
+        <ol class="breadcrumb justify-content-end bg-transparent">
+            <li class="breadcrumb-item">
+                <a asp-area="@area" asp-controller="Home" asp-action="Index" class="text-white">@ViewContext.RouteData.Values["area"]</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a asp-area="@area" asp-controller="@controller" asp-action="Index" class="text-white">@ViewContext.RouteData.Values["controller"]</a>
+            </li>
+            <li class="breadcrumb-item text-white" aria-current="page">@ViewContext.RouteData.Values["action"]</li>
+        </ol>
+    </nav>
+</div>
