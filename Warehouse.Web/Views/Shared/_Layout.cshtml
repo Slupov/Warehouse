@@ -4,7 +4,10 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- mobile responsive meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
     <title>@ViewData["Title"] - Warehouse</title>
 
     <environment include="Development">
@@ -17,12 +20,23 @@
               crossorigin="anonymous"
               integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
     </environment>
+
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="~/lib/font-awesome-4.7.0/css/font-awesome.css">
+    <!-- venobox -->
+    <link rel="stylesheet" href="~/lib/venobox/venobox.css">
+    <!-- slick -->
+    <link rel="stylesheet" href="~/lib/slick/slick.css">
+    <!-- AOS -->
+    <link rel="stylesheet" href="~/lib/aos/aos.css">
+
+    <!-- Main Stylesheet -->
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/style.css" />
 
     @RenderSection("Styles", required: false)
-
 </head>
+
 <body>
     <!-- preloader start -->
     <div class="preloader">
@@ -71,7 +85,7 @@
                         <h1 class="text-white position-relative">@ViewData["Title"]<span class="watermark-sm">@ViewData["Title"]</span></h1>
                         <p class="text-white pt-4 pb-4">@ViewData["TitleDescription"]</p>
                     </div>
-                    
+
                     <partial name="_Breadcrumb" />
                 </div>
             </div>
@@ -91,16 +105,18 @@
             @RenderBody()
         </main>
     }
-    
-<!-- footer part start -->
+
+    <!-- footer part start -->
     <footer class="bg-secondary pt-5">
         <section class="section border-bottom border-color">
             <div class="container">
                 <div class="row justify-content-between">
                     <div class="col-md-5 mb-4 mb-md-0">
                         <img src="~/images/logo/logo.png" class="mb-4" alt="agico">
-                        <p class="text-light mb-4">Lorem ipsum dolor amet consectetur adipisicing elit sed eiusm tempor incididunt ut labore dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamaboris nisi ut aliquip.exea commodo consequat. Duis aute irure dolor
-                            in reprehenderit.</p>
+                        <p class="text-light mb-4">
+                            Lorem ipsum dolor amet consectetur adipisicing elit sed eiusm tempor incididunt ut labore dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamaboris nisi ut aliquip.exea commodo consequat. Duis aute irure dolor
+                            in reprehenderit.
+                        </p>
                         <ul class="list-inline social-icons">
                             <li class="list-inline-item"><a href="http://facebook.com/themefisher" target="_blank"><i class="fa fa-facebook"></i></a></li>
                             <li class="list-inline-item"><a href="http://twitter.com/themefisher" target="_blank"><i class="fa fa-twitter"></i></a></li>
@@ -130,18 +146,14 @@
             </div>
         </section>
         <!-- footer part end -->
-
         <!-- copyright part start -->
         <section class="py-4">
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 text-center text-md-left mb-3 mb-md-0">
-                        <p class="mb-0 text-light">Copyright &copy;
-                            <script>
-                                var CurrentYear = new Date().getFullYear()
-                                document.write(CurrentYear)
-                            </script>
-                            a theme by <a href="https://themefisher.com">themefisher.com</a></p>
+                        <p class="mb-0 text-light">
+                            Copyright &copy; @DateTime.Now.Year
+                        </p>
                     </div>
                     <div class="col-md-6 text-md-right text-center">
                         <ul class="list-inline">
@@ -173,9 +185,16 @@
                 integrity="sha256-E/V4cWE4qvAeO5MOhjtGtqDzPndRO1LBk8lJ/PR7CA4=">
         </script>
     </environment>
-    <script src="~/lib/venobox/venobox.min.js" asp-append-version="true"></script>
-    <script src="~/lib/slick/slick.min.js" asp-append-version="true"></script>
-    <script src="~/lib/aos/aos.js" asp-append-version="true"></script>
+    <!-- Bootstrap JS -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- slick -->
+    <script src="~/lib/slick/slick.min.js"></script>
+    <!-- venobox -->
+    <script src="~/lib/venobox/venobox.min.js"></script>
+    <!-- Aos -->
+    <script src="~/lib/aos/aos.js"></script>
+    
+    <!-- Main Script -->
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)
