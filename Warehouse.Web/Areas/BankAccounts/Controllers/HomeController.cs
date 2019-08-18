@@ -20,13 +20,9 @@ namespace Warehouse.Web.Areas.BankAccounts.Controllers
         }
 
         // GET: BankAccounts/BankAccounts
-        public async Task<IActionResult> Index(int? companyId)
+        public async Task<IActionResult> Index()
         {
-            if (companyId is null)
-            {
-                return NotFound();
-            }
-
+            int companyId = (await _userManager.GetUserAsync(User)).Company.Id;
             var vm = await _bankAcccounts.GetListAsync(x => x.Company.Id == companyId);
 
             return View(vm);
@@ -71,7 +67,7 @@ namespace Warehouse.Web.Areas.BankAccounts.Controllers
 
                 _bankAcccounts.Add(bankAccount);
 
-                return RedirectToAction(nameof(Index), new { companyId = bankAccount.Company.Id });
+                return RedirectToAction(nameof(Index));
             }
 
             return View(bankAccount);
@@ -123,7 +119,7 @@ namespace Warehouse.Web.Areas.BankAccounts.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index), new {companyId = bankAccount.CompanyId});
+                return RedirectToAction(nameof(Index));
             }
 
             return View(bankAccount);
@@ -158,7 +154,7 @@ namespace Warehouse.Web.Areas.BankAccounts.Controllers
 
             _bankAcccounts.Remove(bankAccount);
 
-            return RedirectToAction(nameof(Index), new { companyId = companyId });
+            return RedirectToAction(nameof(Index));
         }
 
         private async Task<bool> BankAccountExists(int id)
