@@ -8,6 +8,8 @@
     var modelAsEnum = Model.Object as IEnumerable;
 }
 
+<br/>
+
 <div class="container">
     <p>
         <a asp-action="Create" class="btn btn-success col-lg-12">Create New</a>
@@ -24,7 +26,6 @@
                     <th>
                         @* Get display name attribute value *@
                         @prop.GetDisplayNameValue()
-                        @* @prop.Name *@
                     </th>
                 }
                 <th></th>

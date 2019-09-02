@@ -1,5 +1,5 @@
-﻿@using System.Reflection
-@using Warehouse.Data.Models
+﻿@using Warehouse.Data.Models
+@using Warehouse.Web.Infrastructure
 @using Warehouse.Web.Models.Components
 @using Warehouse.Web.Views.Shared.Components
 @model IEnumerable<Warehouse.Data.Models.BankAccount>
@@ -13,10 +13,10 @@
 
     genericVM.PropsToShow = new List<string>()
     {
-        string.Join('.', nameof(BankAccount), nameof(BankAccount.Company), nameof(BankAccount.Company.Name)),
-        string.Join('.', nameof(BankAccount), nameof(BankAccount.IBAN)),
-        string.Join('.', nameof(BankAccount), nameof(BankAccount.BIC)),
-        string.Join('.', nameof(BankAccount), nameof(BankAccount.Currency))
+        ReflectionHelpers.GetComplexPropName<BankAccount>(x => x.Company.Name),
+        ReflectionHelpers.GetComplexPropName<BankAccount>(x => x.IBAN),
+        ReflectionHelpers.GetComplexPropName<BankAccount>(x => x.BIC),
+        ReflectionHelpers.GetComplexPropName<BankAccount>(x => x.Currency)
     };
 }
 

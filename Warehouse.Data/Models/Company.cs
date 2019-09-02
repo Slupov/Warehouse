@@ -9,7 +9,7 @@ namespace Warehouse.Data.Models
         [Key]
         public int Id { get; set; }
 
-        [Display(Prompt = "Име на компания")]
+        [Display(Prompt = "Име на компания", Name = "Име на компания")]
         public string Name { get; set; }
 
         [Display(Prompt = "ЕИК/Id")]

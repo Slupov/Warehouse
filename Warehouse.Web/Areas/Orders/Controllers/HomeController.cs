@@ -20,8 +20,10 @@ namespace Warehouse.Web.Areas.Orders.Controllers
         }
 
         // GET: Orders/Home
-        public async Task<IActionResult> Index(int companyId)
+        public async Task<IActionResult> Index()
         {
+            int companyId = (await _userManager.GetUserAsync(User)).Company.Id;
+
             var vm = await _orders.GetListAsync(x => x.Company.Id == companyId);
 
             return View(vm);
@@ -63,8 +65,7 @@ namespace Warehouse.Web.Areas.Orders.Controllers
 
                 _orders.Add(order);
 
-                return RedirectToAction(nameof(Index), 
-                    new {companyId = order.Company.Id});
+                return RedirectToAction(nameof(Index));
             }
 
             return View(order);
@@ -118,8 +119,7 @@ namespace Warehouse.Web.Areas.Orders.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(Index), 
-                    new { companyId = order.Company.Id });
+                return RedirectToAction(nameof(Index));
             }
             return View(order);
         }
@@ -150,8 +150,7 @@ namespace Warehouse.Web.Areas.Orders.Controllers
             var companyId = order.Company.Id;
             
             _orders.Remove(order);
-            return RedirectToAction(nameof(Index),
-                new { companyId = companyId });
+            return RedirectToAction(nameof(Index));
         }
 
         private async Task<bool> OrderExistsAsync(int id)

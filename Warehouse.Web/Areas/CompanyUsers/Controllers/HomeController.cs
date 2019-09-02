@@ -33,8 +33,10 @@ namespace Warehouse.Web.Areas.CompanyUsers.Controllers
             _logger      = logger;
         }
 
-        public async Task<IActionResult> Index(int companyId)
+        public async Task<IActionResult> Index()
         {
+            int companyId = (await _userManager.GetUserAsync(User)).Company.Id;
+
             //TODO Stoyan Lupov 26 July, 2019 Checks if current user is COMPANY OWNER
             CompanyUsersIndexViewModel vm = new CompanyUsersIndexViewModel();
 
@@ -106,8 +108,7 @@ namespace Warehouse.Web.Areas.CompanyUsers.Controllers
                     await _emailSender.SendEmailAsync(editViewModel.User.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(confirmationLink)}'>clicking here</a>.");
 
-                    return RedirectToAction(nameof(Index),
-                        new { companyId = editViewModel.User.Company.Id });
+                    return RedirectToAction(nameof(Index));
                 }
 
                 foreach (var error in result.Errors)
@@ -194,8 +195,7 @@ namespace Warehouse.Web.Areas.CompanyUsers.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(Index),
-                    new { companyId = vm.User.Company.Id });
+                return RedirectToAction(nameof(Index));
             }
 
             return View(vm);

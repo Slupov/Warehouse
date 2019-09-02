@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Warehouse.Data;
 using Warehouse.Data.Models;
 using Warehouse.Services;
 
@@ -38,6 +33,8 @@ namespace Warehouse.Web.Areas.Settings.Controllers
         // GET: Settings/ApplicationSettings/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            id = (await _userManager.GetUserAsync(User)).Company.Id;
+
             if (id == null)
             {
                 return NotFound();
@@ -93,6 +90,8 @@ namespace Warehouse.Web.Areas.Settings.Controllers
         // GET: Settings/ApplicationSettings/Edit/5
         public async Task<IActionResult> Edit(int? companyId)
         {
+            companyId = (await _userManager.GetUserAsync(User)).Company.Id;
+
             if (companyId == null)
             {
                 return NotFound();

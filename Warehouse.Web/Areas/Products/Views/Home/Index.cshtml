@@ -10,103 +10,106 @@
 }
 
 <br/>
-<p>
-    <a asp-action="Create" class="btn btn-success">Create New</a>
-</p>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Product.Company)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product.Place)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product.BaseBarcode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product.MeasureUnit)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product.ProductGroup)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product.RetailPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product.WholesalePrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product.DistributorPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product.MinimalQuantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product.OptimalQuantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product.IsService)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div class="container">
+    <p>
+        <a asp-action="Create" class="btn btn-success col-lg-12">Create New</a>
+    </p>
+
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @if (!string.IsNullOrEmpty(item.ThumbnailPath))
-                    {
-                        <div class="product-thumbnail-container">
-                            <img src=@item.ThumbnailPath alt="ASP.NET" class="img-responsive" />
-                        </div>
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Product.Place.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Product.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Product.BaseBarcode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Product.MeasureUnit.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Product.ProductGroup.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Product.RetailPrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Product.WholesalePrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Product.DistributorPrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Product.MinimalQuantity)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Product.OptimalQuantity)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Product.IsService)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Product.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Product.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Product.Id">Delete</a>
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.ThumbnailPath)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product.Place)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product.BaseBarcode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product.MeasureUnit)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product.ProductGroup)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product.RetailPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product.WholesalePrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product.DistributorPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product.MinimalQuantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product.OptimalQuantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product.IsService)
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.ThumbnailPath))
+                        {
+                            <div class="product-thumbnail-container">
+                                <img src=@item.ThumbnailPath alt="ASP.NET" class="img-responsive" />
+                            </div>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.Place.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.BaseBarcode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.MeasureUnit.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.ProductGroup.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.RetailPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.WholesalePrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.DistributorPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.MinimalQuantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.OptimalQuantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.IsService)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Product.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Product.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Product.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

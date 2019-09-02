@@ -2,13 +2,12 @@
 
 @if (Model.ShouldVisualize)
 {
-
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle text-white active text-capitalize" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Администриране</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" asp-area="CompanyUsers" asp-controller="Home" asp-action="Index" asp-route-companyId="@Model.CompanyId">Потребители</a>
-            <a class="dropdown-item" asp-area="Settings" asp-controller="Home" asp-action="Edit" asp-route-companyId="@Model.CompanyId">Настройки</a>
-            <a class="dropdown-item" asp-area="Subscriptions" asp-controller="Home" asp-action="Index" asp-route-companyId="@Model.CompanyId">Абонамент и плащания</a>
+            <a class="dropdown-item" asp-area="CompanyUsers" asp-controller="Home" asp-action="Index">Потребители</a>
+            <a class="dropdown-item" asp-area="Settings" asp-controller="Home" asp-action="Edit">Настройки</a>
+            <a class="dropdown-item" asp-area="Subscriptions" asp-controller="Home" asp-action="Index">Абонамент и плащания</a>
             <a class="dropdown-item">TODO: Архивиране на фирма</a>
             <a class="dropdown-item">TODO: Възстановяване от архив</a>
         </div>

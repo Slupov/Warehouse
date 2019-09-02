@@ -20,8 +20,10 @@ namespace Warehouse.Web.Areas.IncomeExpenses.Controllers
         }
 
         // GET: IncomeExpenses/IncomeExpenses
-        public async Task<IActionResult> Index(int companyId)
+        public async Task<IActionResult> Index()
         {
+            int companyId = (await _userManager.GetUserAsync(User)).Company.Id;
+
             var vm = await _incomeExpenses.GetListAsync(i => i.Company.Id == companyId);
 
             return View(vm);
@@ -62,8 +64,7 @@ namespace Warehouse.Web.Areas.IncomeExpenses.Controllers
                 incomeExpense.Company = (await _userManager.GetUserAsync(User)).Company;
 
                 _incomeExpenses.Add(incomeExpense);
-                return RedirectToAction(nameof(Index),
-                    new { companyId = incomeExpense.Company.Id });
+                return RedirectToAction(nameof(Index));
             }
 
             return View(incomeExpense);
@@ -115,8 +116,7 @@ namespace Warehouse.Web.Areas.IncomeExpenses.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index),
-                    new { companyId = incomeExpense.Company.Id });
+                return RedirectToAction(nameof(Index));
             }
             return View(incomeExpense);
         }
@@ -144,11 +144,9 @@ namespace Warehouse.Web.Areas.IncomeExpenses.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var incomeExpense = await _incomeExpenses.GetSingleOrDefaultAsync(x => x.Id == id);
-            var companyId = incomeExpense.Company.Id;
 
             _incomeExpenses.Remove(incomeExpense);
-            return RedirectToAction(nameof(Index),
-                new { companyId = companyId });
+            return RedirectToAction(nameof(Index));
         }
 
         private async Task<bool> IncomeExpenseExists(int id)

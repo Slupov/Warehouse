@@ -2,6 +2,5 @@
 {
     public class MerchantTabViewModel
     {
-        public int CompanyId { get; set; }
     }
 }

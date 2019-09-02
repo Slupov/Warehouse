@@ -20,12 +20,9 @@ namespace Warehouse.Web.Areas.Places.Controllers
         }
 
         // GET: Places/Places
-        public async Task<IActionResult> Index(int? companyId)
+        public async Task<IActionResult> Index()
         {
-            if (companyId is null)
-            {
-                return NotFound();
-            }
+            var companyId = (await _usersManager.GetUserAsync(User)).Company.Id;
 
             var vm = await _places.GetListAsync(x => x.CompanyId == companyId);
 
@@ -70,7 +67,7 @@ namespace Warehouse.Web.Areas.Places.Controllers
                 place.Company = currUser.Company;
 
                 _places.Add(place);
-                return RedirectToAction(nameof(Index), new { companyId = place.Company.Id });
+                return RedirectToAction(nameof(Index));
             }
 
             return View(place);
@@ -123,7 +120,7 @@ namespace Warehouse.Web.Areas.Places.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index), new { companyId = place.CompanyId });
+                return RedirectToAction(nameof(Index));
             }
             return View(place);
         }
@@ -153,7 +150,7 @@ namespace Warehouse.Web.Areas.Places.Controllers
             var place = await _places.GetSingleOrDefaultAsync(x => x.Id == id);
 
             _places.Remove(place);
-            return RedirectToAction(nameof(Index), new {companyId = place.CompanyId});
+            return RedirectToAction(nameof(Index));
         }
 
         private async Task<bool> PlaceExists(int id)

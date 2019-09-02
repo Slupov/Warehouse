@@ -28,7 +28,6 @@ namespace Warehouse.Web.Views.Shared
             else
             {
                 vm.ShouldVisualize = true;
-                vm.CompanyId = currUser.Company.ApplicationSettings.Id;
             }
 
             var result = (IViewComponentResult) View("CompanyInfoTabView", vm);

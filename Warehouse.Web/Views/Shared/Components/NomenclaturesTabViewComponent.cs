@@ -31,7 +31,6 @@ namespace Warehouse.Web.Views.Shared.Components
             else
             {
                 vm.ShouldVisualize = true;
-                vm.CompanyId = currUser.Company.Id;
             }
 
             var result = (IViewComponentResult)View("NomenclaturesTabView", vm);

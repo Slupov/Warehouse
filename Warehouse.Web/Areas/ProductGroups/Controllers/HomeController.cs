@@ -21,6 +21,8 @@ namespace Warehouse.Web.Areas.ProductGroup.Controllers
         // GET: ProductGroup/ProductGroups
         public async Task<IActionResult> Index(int? companyId)
         {
+            companyId = (await _users.GetUserAsync(User)).Company.Id;
+
             var vm = await _productGroups.GetListAsync(p => p.Company.Id == companyId);
 
             return View(vm);
@@ -63,7 +65,7 @@ namespace Warehouse.Web.Areas.ProductGroup.Controllers
 
                 _productGroups.Add(productGroup);
 
-                return RedirectToAction(nameof(Index), new { companyId = productGroup.Company.Id });
+                return RedirectToAction(nameof(Index));
             }
        
             return View(productGroup);
@@ -116,7 +118,7 @@ namespace Warehouse.Web.Areas.ProductGroup.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(Index), new { companyId = productGroup.CompanyId });
+                return RedirectToAction(nameof(Index));
             }
 
             return View(productGroup);
@@ -149,7 +151,7 @@ namespace Warehouse.Web.Areas.ProductGroup.Controllers
 
             _productGroups.Remove(productGroup);
 
-            return RedirectToAction(nameof(Index), new { companyId = companyId });
+            return RedirectToAction(nameof(Index));
         }
 
         private bool ProductGroupExists(int id)

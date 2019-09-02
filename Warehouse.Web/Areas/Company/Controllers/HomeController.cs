@@ -34,6 +34,8 @@ namespace Warehouse.Web.Areas.Company.Controllers
         // GET: Company/Companies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            id = (await _userManager.GetUserAsync(User)).Company.Id;
+
             if (id == null)
             {
                 return NotFound();

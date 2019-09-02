@@ -2,7 +2,9 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
+using Castle.Core.Internal;
 
 namespace Warehouse.Web.Infrastructure
 {
@@ -82,13 +84,20 @@ namespace Warehouse.Web.Infrastructure
 
         public static string GetDisplayNameValue(this PropertyInfo prop)
         {
+            string result = string.Empty;
+
             // try get display name from display name attribute
             var displayNameAttributes = prop.GetCustomAttributes(typeof(DisplayNameAttribute), true)
                 .Cast<DisplayNameAttribute>();
 
             if (displayNameAttributes.Any())
             {
-                return displayNameAttributes.Single().DisplayName;
+                result = displayNameAttributes.Single().DisplayName;
+
+                if (!string.IsNullOrEmpty(result))
+                {
+                    return displayNameAttributes.Single().DisplayName;
+                }
             }
 
             // try get display name from display attribute
@@ -97,11 +106,54 @@ namespace Warehouse.Web.Infrastructure
 
             if (displayAttributes.Any())
             {
-                return displayAttributes.Single().Name;
+                result = displayAttributes.Single().Name;
+
+                if (!string.IsNullOrEmpty(result))
+                {
+                    return result;
+                }
             }
 
             // return the property name if no display name was found
             return prop.Name;
+        }
+
+        public static string GetComplexPropName<TSource>(Expression<Func<TSource, object>> prop)
+        {
+            if (object.Equals(prop, null))
+            {
+                throw new NullReferenceException("prop is required");
+            }
+
+            MemberExpression expr = null;
+
+            if (prop.Body is MemberExpression)
+            {
+                expr = (MemberExpression)prop.Body;
+            }
+            else if (prop.Body is UnaryExpression)
+            {
+                expr = (MemberExpression)((UnaryExpression)prop.Body).Operand;
+            }
+            else
+            {
+                const string Format = "Expression '{0}' not supported.";
+                string message = string.Format(Format, prop);
+
+                throw new ArgumentException(message, "prop");
+            }
+
+            var baseType = prop.Type.GenericTypeArguments[0].Name;
+
+            var firstDot = prop.ToString().IndexOf('.');
+            var result = baseType + prop.ToString().Substring(firstDot);
+
+            if (result.Contains(','))
+            {
+                result = result.Substring(0, result.IndexOf(','));
+            }
+
+            return result;
         }
     }
 }

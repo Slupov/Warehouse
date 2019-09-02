@@ -22,12 +22,9 @@ namespace Warehouse.Web.Areas.MeasureUnits.Controllers
         }
 
         // GET: MeasureUnits/MeasureUnits
-        public async Task<IActionResult> Index(int? companyId)
+        public async Task<IActionResult> Index()
         {
-            if (companyId is null)
-            {
-                return NotFound();
-            }
+            int companyId = (await _users.GetUserAsync(User)).Company.Id;
 
             var vm = await _measureUnits.GetListAsync(x => x.Company.Id == companyId);
 
@@ -71,7 +68,7 @@ namespace Warehouse.Web.Areas.MeasureUnits.Controllers
 
                 _measureUnits.Add(measureUnit);
 
-                return RedirectToAction(nameof(Index), new { companyId = measureUnit.Company.Id });
+                return RedirectToAction(nameof(Index));
             }
 
             return View(measureUnit);
@@ -125,7 +122,7 @@ namespace Warehouse.Web.Areas.MeasureUnits.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(Index), new { companyId = measureUnit.CompanyId });
+                return RedirectToAction(nameof(Index));
             }
 
             return View(measureUnit);
@@ -161,7 +158,7 @@ namespace Warehouse.Web.Areas.MeasureUnits.Controllers
 
             _measureUnits.Remove(measureUnit);
 
-            return RedirectToAction(nameof(Index), new { companyId = companyId });
+            return RedirectToAction(nameof(Index));
         }
 
         private bool MeasureUnitExists(int id)

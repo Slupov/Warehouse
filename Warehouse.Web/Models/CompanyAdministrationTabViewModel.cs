@@ -7,8 +7,6 @@ namespace Warehouse.Web.Models
 {
     public class CompanyAdministrationTabViewModel
     {
-        public int CompanyId { get; set; }
-
         public bool ShouldVisualize { get; set; }
     }
 }

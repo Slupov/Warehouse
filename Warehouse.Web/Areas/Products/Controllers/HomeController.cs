@@ -29,12 +29,9 @@ namespace Warehouse.Web.Areas.Products.Controllers
         }
 
         // GET: Products/Home
-        public async Task<IActionResult> Index(int? companyId)
+        public async Task<IActionResult> Index()
         {
-            if (companyId is null)
-            {
-                return NotFound();
-            }
+            int companyId = (await _users.GetUserAsync(User)).Company.Id;
 
             var vm =
                 (await _products.GetListAsync(x => x.Company.Id == companyId))
@@ -129,7 +126,7 @@ namespace Warehouse.Web.Areas.Products.Controllers
 
                 _products.Add(vm.Product);
 
-                return RedirectToAction(nameof(Index), new {companyId = vm.Product.Company.Id});
+                return RedirectToAction(nameof(Index));
             }
 
             return View(vm);
@@ -189,7 +186,7 @@ namespace Warehouse.Web.Areas.Products.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index), new { companyId = product.CompanyId });
+                return RedirectToAction(nameof(Index));
             }
             return View(product);
         }
@@ -220,7 +217,7 @@ namespace Warehouse.Web.Areas.Products.Controllers
             var companyId = product.Company.Id;
 
             _products.Remove(product);
-            return RedirectToAction(nameof(Index), new {companyId = companyId});
+            return RedirectToAction(nameof(Index));
         }
 
         private bool ProductExists(int id)

@@ -150,7 +150,6 @@ namespace Warehouse.Web.Areas.BankAccounts.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var bankAccount = await _bankAcccounts.GetSingleOrDefaultAsync(x => x.Id == id);
-            var companyId = bankAccount.Company.Id;
 
             _bankAcccounts.Remove(bankAccount);
 

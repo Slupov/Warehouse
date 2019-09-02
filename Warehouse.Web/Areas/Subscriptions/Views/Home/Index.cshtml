@@ -1,70 +1,26 @@
-﻿@model IEnumerable<Warehouse.Data.Models.Subscription>
+﻿@using Warehouse.Data.Models
+@using Warehouse.Web.Infrastructure
+@using Warehouse.Web.Models.Components
+@using Warehouse.Web.Views.Shared.Components
+@model IEnumerable<Warehouse.Data.Models.Subscription>
 
 @{
     ViewData["Title"] = "Subscriptions";
     ViewData["TitleDescription"] = "Here you can see a list of all subscriptions linked to your company.";
+
+    GenericViewObjectModel genericVM = new GenericViewObjectModel();
+    genericVM.Object = Model;
+
+    genericVM.PropsToShow = new List<string>()
+    {
+        ReflectionHelpers.GetComplexPropName<Subscription>(x => x.Company.Name),
+        ReflectionHelpers.GetComplexPropName<Subscription>(x => x.RequestedOn),
+        ReflectionHelpers.GetComplexPropName<Subscription>(x => x.PayedOn),
+        ReflectionHelpers.GetComplexPropName<Subscription>(x => x.ForMonths),
+        ReflectionHelpers.GetComplexPropName<Subscription>(x => x.ForUsers),
+        ReflectionHelpers.GetComplexPropName<Subscription>(x => x.TotalPrice),
+        ReflectionHelpers.GetComplexPropName<Subscription>(x => x.PaymentStatus)
+    };
 }
 
-<p>
-    <a asp-action="Create">Плащане на абонамент</a>
-</p>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Company)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RequestedOn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PayedOn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ForMonths)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ForUsers)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PaymentStatus)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Company.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RequestedOn)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PayedOn)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ForMonths)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ForUsers)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TotalPrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PaymentStatus)
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+@await Component.InvokeAsync(nameof(GenericIndexViewViewComponent).Replace("ViewComponent", ""), genericVM)
