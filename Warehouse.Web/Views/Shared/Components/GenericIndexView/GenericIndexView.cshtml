@@ -1,0 +1,61 @@
+﻿@using System.Collections
+@using System.Reflection
+@using Warehouse.Web.Infrastructure
+@model Warehouse.Web.Models.Components.GenericViewObjectModel
+
+@{
+    var collectionElementType = Model.Object.GetType().GetGenericArguments().FirstOrDefault();
+    var modelAsEnum = Model.Object as IEnumerable;
+}
+
+<div class="container">
+    <p>
+        <a asp-action="Create" class="btn btn-success col-lg-12">Create New</a>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                @foreach (var propName in Model.PropsToShow)
+                {
+                    //get property
+                    var prop = collectionElementType.GetComplexProperty(propName);
+
+                    <th>
+                        @* Get display name attribute value *@
+                        @prop.GetDisplayNameValue()
+                        @* @prop.Name *@
+                    </th>
+                }
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (object obj in modelAsEnum)
+            {
+                var id = obj.GetType().GetProperty("Id").GetValue(obj);
+
+                <tr>
+                    @foreach (var propName in Model.PropsToShow)
+                    {
+                        //get property
+                        var prop = collectionElementType.GetComplexProperty(propName);
+                        var propValue = ReflectionHelpers.GetPropertyValue(obj, propName);
+
+                        <td>
+                            @propValue
+                            @* @Html.DisplayFor(mi => propValue); *@
+                        </td>
+                    }
+                    
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@id">Delete</a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

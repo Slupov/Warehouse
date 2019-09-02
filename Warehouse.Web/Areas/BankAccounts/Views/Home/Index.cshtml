@@ -1,58 +1,23 @@
-﻿@model IEnumerable<Warehouse.Data.Models.BankAccount>
+﻿@using System.Reflection
+@using Warehouse.Data.Models
+@using Warehouse.Web.Models.Components
+@using Warehouse.Web.Views.Shared.Components
+@model IEnumerable<Warehouse.Data.Models.BankAccount>
 
 @{
     ViewData["Title"] = "Bank accounts";
     ViewData["TitleDescription"] = "Here you can see a list of all bank accounts linked to your company.";
+
+    GenericViewObjectModel genericVM = new GenericViewObjectModel();
+    genericVM.Object = Model;
+
+    genericVM.PropsToShow = new List<string>()
+    {
+        string.Join('.', nameof(BankAccount), nameof(BankAccount.Company), nameof(BankAccount.Company.Name)),
+        string.Join('.', nameof(BankAccount), nameof(BankAccount.IBAN)),
+        string.Join('.', nameof(BankAccount), nameof(BankAccount.BIC)),
+        string.Join('.', nameof(BankAccount), nameof(BankAccount.Currency))
+    };
 }
 
-<br />
-
-<div class="container">
-    <p>
-        <a asp-action="Create" class="btn btn-success col-lg-12">Create New</a>
-    </p>
-
-    <table class="table">
-        <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Company)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BIC)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IBAN)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Currency)
-            </th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Company.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BIC)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IBAN)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Currency)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
-</div>
+@await Component.InvokeAsync(nameof(GenericIndexViewViewComponent).Replace("ViewComponent", ""), genericVM)
