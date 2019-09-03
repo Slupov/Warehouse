@@ -4,15 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Warehouse.Data.Models;
 using Warehouse.Services;
+using Warehouse.Web.Areas.ProductGroup.Controllers;
 
-namespace Warehouse.Web.Areas.ProductGroup.Controllers
+namespace Warehouse.Web.Areas.ProductGroups.Controllers
 {
     public class HomeController : ProductGroupsBaseController
     {
         private readonly IGenericDataService<Data.Models.ProductGroup> _productGroups;
         private readonly UserManager<ApplicationUser> _users;
 
-        public HomeController(IGenericDataService<Data.Models.ProductGroup> productGroups, UserManager<ApplicationUser> users)
+        public HomeController(IGenericDataService<Data.Models.ProductGroup> productGroups,
+            UserManager<ApplicationUser> users)
         {
             _productGroups = productGroups;
             _users         = users;
@@ -147,7 +149,6 @@ namespace Warehouse.Web.Areas.ProductGroup.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var productGroup = await _productGroups.GetSingleOrDefaultAsync(x => x.Id == id);
-            var companyId = productGroup.Company.Id;
 
             _productGroups.Remove(productGroup);
 

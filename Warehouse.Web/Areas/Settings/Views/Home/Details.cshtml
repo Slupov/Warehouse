@@ -1,35 +1,22 @@
-﻿@model Warehouse.Data.Models.ApplicationSettings
+﻿@using Warehouse.Data.Models
+@using Warehouse.Web.Infrastructure
+@using Warehouse.Web.Models.Components
+@using Warehouse.Web.Views.Shared.Components
+@model Warehouse.Data.Models.ApplicationSettings
 
 @{
     ViewData["Title"] = "Application settings details";
     ViewData["TitleDescription"] = "Here you can check all details for these application settings.";
+
+    GenericViewObjectModel genericVM = new GenericViewObjectModel();
+    genericVM.Object = Model;
+
+    genericVM.PropsToShow = new List<string>()
+    {
+        ReflectionHelpers.GetComplexPropName<ApplicationSettings>(x => x.Company.Name),
+        ReflectionHelpers.GetComplexPropName<ApplicationSettings>(x => x.PricesPrecisionUnits),
+        ReflectionHelpers.GetComplexPropName<ApplicationSettings>(x => x.PricesIncludeVAT)
+    };
 }
 
-<div>
-    <h4>ApplicationSettings</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Company)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Company.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PricesPrecisionUnits)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PricesPrecisionUnits)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PricesIncludeVAT)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PricesIncludeVAT)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+@await Component.InvokeAsync(nameof(GenericDetailsViewViewComponent).Replace("ViewComponent", ""), genericVM)
