@@ -13,7 +13,7 @@ namespace Warehouse.Web.Models.Components
         /// <note>
         /// Inner properties' names will be separated by a dot '.' delimiter.
         /// </note>
-        public List<string> PropsToShow { get; set; }
+        public List<string> PropsToShow { get; set; } = new List<string>();
 
         /// <value>
         /// A list of string interpretations of Properties to be hidden in the view inputs.
@@ -21,6 +21,6 @@ namespace Warehouse.Web.Models.Components
         /// <note>
         /// Inner properties' names will be separated by a dot '.' delimiter.
         /// </note>
-        public List<string> HiddenProps { get; set; }
+        public List<string> HiddenProps { get; set; } = new List<string>();
     }
 }

@@ -6,114 +6,119 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/products/product-edit.css" />
+    <link rel="stylesheet" href="~/css/products/product-edit.css"/>
     <link rel="stylesheet" href="~/lib/font-awesome-4.7.0/css/font-awesome.min.css">
 }
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Product.Id" />
-            <input type="hidden" asp-for="Product.CompanyId" />
-            <div class="form-group">
-                <label asp-for="Product.PlaceId" class="control-label"></label>
-                <select asp-for="Product.PlaceId" asp-items="@Model.Places" class="form-control"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.Name" class="control-label"></label>
-                <input asp-for="Product.Name" class="form-control" />
-                <span asp-validation-for="Product.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.BaseBarcode" class="control-label"></label>
-                <input asp-for="Product.BaseBarcode" class="form-control" />
-                <span asp-validation-for="Product.BaseBarcode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.MeasureUnitId" class="control-label"></label>
-                <select asp-for="Product.MeasureUnitId" class="form-control" asp-items="@Model.MeasureUnits"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.ProductGroupId" class="control-label"></label>
-                <select asp-for="Product.ProductGroupId" class="form-control" asp-items="@Model.ProductGroups"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.RetailPrice" class="control-label"></label>
-                <input asp-for="Product.RetailPrice" class="form-control" />
-                <span asp-validation-for="Product.RetailPrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.WholesalePrice" class="control-label"></label>
-                <input asp-for="Product.WholesalePrice" class="form-control" />
-                <span asp-validation-for="Product.WholesalePrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.DistributorPrice" class="control-label"></label>
-                <input asp-for="Product.DistributorPrice" class="form-control" />
-                <span asp-validation-for="Product.DistributorPrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.MinimalQuantity" class="control-label"></label>
-                <input asp-for="Product.MinimalQuantity" class="form-control" />
-                <span asp-validation-for="Product.MinimalQuantity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Product.OptimalQuantity" class="control-label"></label>
-                <input asp-for="Product.OptimalQuantity" class="form-control" />
-                <span asp-validation-for="Product.OptimalQuantity" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Product.IsService" /> @Html.DisplayNameFor(model => model.Product.IsService)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+<section class="section bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center p-0">
+                <form asp-action="Edit" class="row">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Product.Id"/>
+                    <input type="hidden" asp-for="Product.CompanyId"/>
 
-    <div id="product-gallery">
-        @{
-            var imageId = 1;
+                    <div class="form-group col-lg-6">
+                        <label asp-for="Product.Place" class="control-label"></label>
+                        <select asp-for="Product.PlaceId" asp-items="@Model.Places" class="form-control"></select>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label asp-for="Product.Name" class="control-label"></label>
+                        <input asp-for="Product.Name" class="form-control"/>
+                        <span asp-validation-for="Product.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label asp-for="Product.BaseBarcode" class="control-label"></label>
+                        <input asp-for="Product.BaseBarcode" class="form-control"/>
+                        <span asp-validation-for="Product.BaseBarcode" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label asp-for="Product.MeasureUnit" class="control-label"></label>
+                        <select asp-for="Product.MeasureUnitId" class="form-control" asp-items="@Model.MeasureUnits"></select>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label asp-for="Product.ProductGroup" class="control-label"></label>
+                        <select asp-for="Product.ProductGroupId" class="form-control" asp-items="@Model.ProductGroups"></select>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label asp-for="Product.RetailPrice" class="control-label"></label>
+                        <input asp-for="Product.RetailPrice" class="form-control"/>
+                        <span asp-validation-for="Product.RetailPrice" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label asp-for="Product.WholesalePrice" class="control-label"></label>
+                        <input asp-for="Product.WholesalePrice" class="form-control"/>
+                        <span asp-validation-for="Product.WholesalePrice" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label asp-for="Product.DistributorPrice" class="control-label"></label>
+                        <input asp-for="Product.DistributorPrice" class="form-control"/>
+                        <span asp-validation-for="Product.DistributorPrice" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label asp-for="Product.MinimalQuantity" class="control-label"></label>
+                        <input asp-for="Product.MinimalQuantity" class="form-control"/>
+                        <span asp-validation-for="Product.MinimalQuantity" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label asp-for="Product.OptimalQuantity" class="control-label"></label>
+                        <input asp-for="Product.OptimalQuantity" class="form-control"/>
+                        <span asp-validation-for="Product.OptimalQuantity" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-lg-12 form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Product.IsService"/> @Html.DisplayNameFor(model => model.Product.IsService)
+                        </label>
+                    </div>
+                    
+                    <div class="form-group col-lg-6">
+                        <a asp-action="Index" class="btn btn-default">Back to List</a>
+                    </div>
 
-            foreach (var path in Model.OutProductPhotosPaths)
-            {
-                <div class="product-thumbnail-container" data-imageId="@imageId">
-                    <img src=@path alt="ASP.NET" class="img-responsive" />
-                    <button class="btn-danger" onclick="deletePhoto(@Model.Product.Id, '@imageId', this)">
-                        <i class="fa fa-window-close-o" aria-hidden="true"></i>
-                    </button>
+                    <div class="form-group col-lg-6">
+                        <input type="submit" value="Save" class="btn btn-primary"/>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="product-gallery">
+                @{
+                    var imageId = 1;
+
+                    foreach (var path in Model.OutProductPhotosPaths)
+                    {
+                        <div class="product-thumbnail-container" data-imageId="@imageId">
+                            <img src=@path alt="ASP.NET" class="img-responsive"/>
+                            <button class="btn-danger" onclick="deletePhoto(@Model.Product.Id, '@imageId', this)">
+                                <i class="fa fa-window-close-o" aria-hidden="true"></i>
+                            </button>
+                        </div>
+
+                        ++imageId;
+                    }
+                }
+            </div>
+
+            <form method="post" enctype="multipart/form-data" asp-area="API" asp-controller="Products" asp-action="UploadProductPhoto">
+                <input name="ProductId" type="hidden" value="@Model.Product.Id"/>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <p>Upload :</p>
+                        <input type="file" name="UploadPhoto" id="UploadPhoto">
+                    </div>
                 </div>
-
-                ++imageId;
-            }
-        }
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <input type="button" value="Upload" onclick="submitForm(this.form, @Model.Product.Id)">
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <form method="post" enctype="multipart/form-data" asp-area="API" asp-controller="Products" asp-action="UploadProductPhoto">
-        <input name="ProductId" type="hidden" value="@Model.Product.Id" />
-        <div class="form-group">
-            <div class="col-md-10">
-                <p>Upload :</p>
-                <input type="file" name="UploadPhoto" id="UploadPhoto">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-10">
-                <input type="button" value="Upload" onclick="submitForm(this.form, @Model.Product.Id)">
-            </div>
-        </div>
-    </form>
-
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+</section>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     <script type="text/javascript" src="~/js/products/product-edit.js"></script>
 }

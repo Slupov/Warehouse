@@ -1,38 +1,36 @@
-﻿@model Warehouse.Data.Models.ApplicationSettings
+﻿@using Warehouse.Data.Models
+@using Warehouse.Web.Infrastructure
+@using Warehouse.Web.Models.Components
+@using Warehouse.Web.Views.Shared.Components
+@model Warehouse.Data.Models.ApplicationSettings
 
 @{
     ViewData["Title"] = "Edit Application settings";
     ViewData["TitleDescription"] = "Here you can edit all details for the selected application settings.";
+
+    GenericViewObjectModel genericVM = new GenericViewObjectModel();
+    genericVM.Object = Model;
+
+    genericVM.PropsToShow = new List<string>()
+    {
+        ReflectionHelpers.GetComplexPropName<ApplicationSettings>(x => x.PricesPrecisionUnits),
+        ReflectionHelpers.GetComplexPropName<ApplicationSettings>(x => x.PricesIncludeVAT)
+    };
+
+    genericVM.HiddenProps = new List<string>()
+    {
+        ReflectionHelpers.GetComplexPropName<ApplicationSettings>(x => x.Id),
+        ReflectionHelpers.GetComplexPropName<ApplicationSettings>(x => x.CompanyId)
+    };
 }
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="CompanyId" />
-
-            <div class="form-group">
-                <label asp-for="PricesPrecisionUnits" class="control-label"></label>
-                <input asp-for="PricesPrecisionUnits" class="form-control" />
-                <span asp-validation-for="PricesPrecisionUnits" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PricesIncludeVAT" class="control-label"></label>
-                <input asp-for="PricesIncludeVAT" class="form-control" />
-                <span asp-validation-for="PricesIncludeVAT" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@await Component.InvokeAsync(nameof(GenericEditViewViewComponent).Replace("ViewComponent", ""), genericVM)
+    
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+
 }

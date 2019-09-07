@@ -1,33 +1,26 @@
-﻿@model Warehouse.Data.Models.Place
+﻿@using Warehouse.Data.Models
+@using Warehouse.Web.Infrastructure
+@using Warehouse.Web.Models.Components
+@using Warehouse.Web.Views.Shared.Components
+@model Warehouse.Data.Models.Place
 
 @{
     ViewData["Title"] = "Edit Place";
     ViewData["TitleDescription"] = "Here you can edit all details for the selected place.";
+
+    GenericViewObjectModel genericVM = new GenericViewObjectModel();
+    genericVM.Object = Model;
+
+    genericVM.PropsToShow = new List<string>()
+    {
+        ReflectionHelpers.GetComplexPropName<Place>(x => x.Name)
+    };
+
+    genericVM.HiddenProps = new List<string>()
+    {
+        ReflectionHelpers.GetComplexPropName<Place>(x => x.Id),
+        ReflectionHelpers.GetComplexPropName<Place>(x => x.CompanyId)
+    };
 }
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="CompanyId" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CompanyId" class="control-label"></label>
-                <select asp-for="CompanyId" class="form-control" asp-items="ViewBag.CompanyId"></select>
-                <span asp-validation-for="CompanyId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@await Component.InvokeAsync(nameof(GenericEditViewViewComponent).Replace("ViewComponent", ""), genericVM)

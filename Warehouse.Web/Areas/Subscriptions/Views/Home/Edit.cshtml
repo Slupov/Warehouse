@@ -1,58 +1,31 @@
-﻿@model Warehouse.Data.Models.Subscription
+﻿@using Warehouse.Data.Models
+@using Warehouse.Web.Infrastructure
+@using Warehouse.Web.Models.Components
+@using Warehouse.Web.Views.Shared.Components
+@model Warehouse.Data.Models.Subscription
 
 @{
     ViewData["Title"] = "Edit Subscription";
     ViewData["TitleDescription"] = "Here you can edit all details for the selected subscription.";
+
+    GenericViewObjectModel genericVM = new GenericViewObjectModel();
+    genericVM.Object = Model;
+
+    genericVM.PropsToShow = new List<string>()
+    {
+        ReflectionHelpers.GetComplexPropName<Subscription>(x => x.RequestedOn),
+        ReflectionHelpers.GetComplexPropName<Subscription>(x => x.PayedOn),
+        ReflectionHelpers.GetComplexPropName<Subscription>(x => x.ForMonths),
+        ReflectionHelpers.GetComplexPropName<Subscription>(x => x.ForUsers),
+        ReflectionHelpers.GetComplexPropName<Subscription>(x => x.TotalPrice),
+        ReflectionHelpers.GetComplexPropName<Subscription>(x => x.PaymentStatus)
+    };
+
+    genericVM.HiddenProps = new List<string>()
+    {
+        ReflectionHelpers.GetComplexPropName<Subscription>(x => x.Id),
+        ReflectionHelpers.GetComplexPropName<Subscription>(x => x.CompanyId)
+    };
 }
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="CompanyId" class="control-label"></label>
-                <select asp-for="CompanyId" class="form-control" asp-items="ViewBag.CompanyId"></select>
-                <span asp-validation-for="CompanyId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RequestedOn" class="control-label"></label>
-                <input asp-for="RequestedOn" class="form-control" />
-                <span asp-validation-for="RequestedOn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PayedOn" class="control-label"></label>
-                <input asp-for="PayedOn" class="form-control" />
-                <span asp-validation-for="PayedOn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ForMonths" class="control-label"></label>
-                <input asp-for="ForMonths" class="form-control" />
-                <span asp-validation-for="ForMonths" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ForUsers" class="control-label"></label>
-                <input asp-for="ForUsers" class="form-control" />
-                <span asp-validation-for="ForUsers" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TotalPrice" class="control-label"></label>
-                <input asp-for="TotalPrice" class="form-control" />
-                <span asp-validation-for="TotalPrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PaymentStatus" class="control-label"></label>
-                <select asp-for="PaymentStatus" class="form-control"></select>
-                <span asp-validation-for="PaymentStatus" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+@await Component.InvokeAsync(nameof(GenericEditViewViewComponent).Replace("ViewComponent", ""), genericVM)

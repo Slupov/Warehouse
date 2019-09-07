@@ -137,11 +137,14 @@ namespace Warehouse.Web.Areas.CompanyUsers.Controllers
             var vm  = new CompanyUsersCreateEditViewModel();
             vm.User = user;
 
+            IEnumerable<string> currentRolesArr = (await _userManager.GetRolesAsync(user));
+
+
             var registeredRoles = _roleManager.Roles.Select(c => new SelectListItem
             {
                 Value = c.Name,
                 Text  = c.Name,
-                Selected = User.IsInRole(c.Name)
+                Selected = currentRolesArr.Contains(c.Name)
             }).ToList();
 
             vm.UserRoles = registeredRoles;

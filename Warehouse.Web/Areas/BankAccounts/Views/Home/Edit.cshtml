@@ -1,42 +1,27 @@
-﻿@using Warehouse.Data.Enums
+﻿@using Warehouse.Data.Models
+@using Warehouse.Web.Infrastructure
+@using Warehouse.Web.Models.Components
+@using Warehouse.Web.Views.Shared.Components
 @model Warehouse.Data.Models.BankAccount
 
 @{
     ViewData["Title"] = "Edit Bank account";
     ViewData["TitleDescription"] = "Here you can edit all details for the selected bank account.";
+
+    GenericViewObjectModel genericVM = new GenericViewObjectModel();
+    genericVM.Object = Model;
+
+    genericVM.PropsToShow = new List<string>()
+    {
+        ReflectionHelpers.GetComplexPropName<BankAccount>(x => x.IBAN),
+        ReflectionHelpers.GetComplexPropName<BankAccount>(x => x.BIC),
+        ReflectionHelpers.GetComplexPropName<BankAccount>(x => x.Currency)
+    };
+
+    genericVM.HiddenProps = new List<string>()
+    {
+        ReflectionHelpers.GetComplexPropName<BankAccount>(x => x.CompanyId)
+    };
 }
 
-<section class="section bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center p-0">
-                <form asp-action="Edit" class="row">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="Id" />
-                    <input type="hidden" asp-for="CompanyId" />
-                    <div class="form-group col-lg-12">
-                        <label asp-for="BIC" class="control-label"></label>
-                        <input asp-for="BIC" class="form-control mb-4" />
-                        <span asp-validation-for="BIC" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-lg-12">
-                        <label asp-for="IBAN" class="control-label"></label>
-                        <input asp-for="IBAN" class="form-control mb-4" />
-                        <span asp-validation-for="IBAN" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-lg-12">
-                        <label asp-for="Currency" class="control-label mb-4"></label>
-                        <select asp-for="Currency" asp-items="Html.GetEnumSelectList(typeof (Currency))" class="form-control"></select>
-                        <span asp-validation-for="Currency" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-lg-6">
-                        <a asp-action="Index" class="btn btn-default">Back to List</a>
-                    </div>
-                    <div class="form-group col-lg-6">
-                        <input type="submit" value="Save" class="btn btn-primary" />
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
+@await Component.InvokeAsync(nameof(GenericEditViewViewComponent).Replace("ViewComponent", ""), genericVM)

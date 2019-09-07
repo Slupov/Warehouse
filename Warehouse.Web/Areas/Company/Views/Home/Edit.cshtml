@@ -1,51 +1,34 @@
-﻿@model Warehouse.Data.Models.Company
+﻿@using Warehouse.Data.Models
+@using Warehouse.Web.Infrastructure
+@using Warehouse.Web.Models.Components
+@using Warehouse.Web.Views.Shared.Components
+@model Warehouse.Data.Models.Company
 
 @{
     ViewData["Title"] = "Edit Company";
     ViewData["TitleDescription"] = "Here you can edit all details for your company.";
+
+    GenericViewObjectModel genericVM = new GenericViewObjectModel();
+    genericVM.Object = Model;
+
+    genericVM.PropsToShow = new List<string>()
+    {
+        ReflectionHelpers.GetComplexPropName<Company>(x => x.Name),
+        ReflectionHelpers.GetComplexPropName<Company>(x => x.IdentificationCode),
+        ReflectionHelpers.GetComplexPropName<Company>(x => x.OwnerName),
+    };
+
+    genericVM.HiddenProps = new List<string>()
+    {
+        ReflectionHelpers.GetComplexPropName<Company>(x => x.Id)
+    };
 }
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdentificationCode" class="control-label"></label>
-                <input asp-for="IdentificationCode" class="form-control" />
-                <span asp-validation-for="IdentificationCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ContactsId" class="control-label"></label>
-                <input asp-for="ContactsId" class="form-control" />
-                <span asp-validation-for="ContactsId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OwnerName" class="control-label"></label>
-                <input asp-for="OwnerName" class="form-control" />
-                <span asp-validation-for="OwnerName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ApplicationSettingsId" class="control-label"></label>
-                <input asp-for="ApplicationSettingsId" class="form-control" />
-                <span asp-validation-for="ApplicationSettingsId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@await Component.InvokeAsync(nameof(GenericEditViewViewComponent).Replace("ViewComponent", ""), genericVM)
+    
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+                                                               }

@@ -25,9 +25,10 @@ namespace Warehouse.Web.Areas.Subscriptions.Controllers
         }
 
         // GET: Subscriptions/Home
-        public async Task<IActionResult> Index(int companyId)
+        public async Task<IActionResult> Index()
         {
-            var vm = await _subscriptions.GetListAsync(s => s.Company.Id == companyId);
+            var user = await _userManager.GetUserAsync(User);
+            var vm = await _subscriptions.GetListAsync(s => s.Company.Id == user.Company.Id);
 
             return View(vm);
         }
@@ -72,7 +73,7 @@ namespace Warehouse.Web.Areas.Subscriptions.Controllers
                 subscription.PayedOn     = DateTime.Now;
 
                 _subscriptions.Add(subscription);
-                return RedirectToAction(nameof(Index), new { companyId = subscription.Company.Id });
+                return RedirectToAction(nameof(Index));
             }
 
             return View(subscription);
@@ -125,7 +126,7 @@ namespace Warehouse.Web.Areas.Subscriptions.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index), new { companyId = subscription.Company.Id });
+                return RedirectToAction(nameof(Index));
             }
             return View(subscription);
         }
@@ -156,7 +157,7 @@ namespace Warehouse.Web.Areas.Subscriptions.Controllers
             var companyId    = subscription.Company.Id;
             _subscriptions.Remove(subscription);
 
-            return RedirectToAction(nameof(Index), new { companyId = companyId });
+            return RedirectToAction(nameof(Index));
         }
 
         private async Task<bool> SubscriptionExists(int id)
