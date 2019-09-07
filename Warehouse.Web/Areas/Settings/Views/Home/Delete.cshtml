@@ -1,37 +1,22 @@
-﻿@model Warehouse.Data.Models.ApplicationSettings
+﻿@using Warehouse.Data.Models
+@using Warehouse.Web.Infrastructure
+@using Warehouse.Web.Models.Components
+@using Warehouse.Web.Views.Shared.Components
+@model Warehouse.Data.Models.ApplicationSettings
 
 @{
     ViewData["Title"] = "Delete Application settings";
     ViewData["TitleDescription"] = "Are you sure you want to delete these application settings?";
+
+    GenericViewObjectModel genericVM = new GenericViewObjectModel();
+    genericVM.Object = Model;
+
+    genericVM.PropsToShow = new List<string>()
+    {
+        ReflectionHelpers.GetComplexPropName<ApplicationSettings>(x => x.Company.Name),
+        ReflectionHelpers.GetComplexPropName<ApplicationSettings>(x => x.PricesPrecisionUnits),
+        ReflectionHelpers.GetComplexPropName<ApplicationSettings>(x => x.PricesIncludeVAT)
+    };
 }
 
-<div>
-    <h4>ApplicationSettings</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Company)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Company.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PricesPrecisionUnits)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PricesPrecisionUnits)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PricesIncludeVAT)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PricesIncludeVAT)
-        </dd>
-    </dl>
-
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
-</div>
+@await Component.InvokeAsync(nameof(GenericDeleteViewViewComponent).Replace("ViewComponent", ""), genericVM)

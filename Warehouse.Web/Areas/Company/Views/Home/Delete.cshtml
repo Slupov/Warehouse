@@ -1,52 +1,24 @@
-﻿@model Warehouse.Data.Models.Company
+﻿@using Warehouse.Data.Models
+@using Warehouse.Web.Infrastructure
+@using Warehouse.Web.Models.Components
+@using Warehouse.Web.Views.Shared.Components
+@model Warehouse.Data.Models.Company
 
 @{
     ViewData["Title"] = "Delete Company";
     ViewData["TitleDescription"] = "Are you sure you want to delete this Company?";
+
+    GenericViewObjectModel genericVM = new GenericViewObjectModel();
+    genericVM.Object = Model;
+
+    genericVM.PropsToShow = new List<string>()
+    {
+        ReflectionHelpers.GetComplexPropName<Company>(x => x.Name),
+        ReflectionHelpers.GetComplexPropName<Company>(x => x.IdentificationCode),
+        ReflectionHelpers.GetComplexPropName<Company>(x => x.ContactsId),
+        ReflectionHelpers.GetComplexPropName<Company>(x => x.OwnerName),
+        ReflectionHelpers.GetComplexPropName<Company>(x => x.ApplicationSettingsId),
+    };
 }
 
-<h1>Delete</h1>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Company</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IdentificationCode)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdentificationCode)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ContactsId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ContactsId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OwnerName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OwnerName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ApplicationSettingsId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ApplicationSettingsId)
-        </dd>
-    </dl>
-
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
-</div>
+@await Component.InvokeAsync(nameof(GenericDeleteViewViewComponent).Replace("ViewComponent", ""), genericVM)

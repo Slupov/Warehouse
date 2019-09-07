@@ -11,12 +11,12 @@
     <div class="container">
         <div class="row">
             <section class="col-lg-12 text-center p-0">
-                <h4>@modelObjType.Name TODO FIX THIS</h4>
-                <hr/>
+                <h4>BankAccount</h4>
+                <hr />
                 <dl class="row">
                     @foreach (var propName in Model.PropsToShow)
                     {
-                        var prop      = modelObjType.GetComplexProperty(propName);
+                        var prop = modelObjType.GetComplexProperty(propName);
                         var propValue = ReflectionHelpers.GetPropertyValue(Model.Object, propName);
 
                         <dt class="col-lg-6">
@@ -26,19 +26,19 @@
                             @propValue
                         </dd>
                     }
-                    
+
                     <div class="col-lg-12 text-center p-0">
-                        <br/>
-                        <br/>
-                        <div class="row">
+                        <br />
+                        <br />
+                        <form asp-action="Delete" class="row">
+                            <input type="hidden" asp-for="@id" />
                             <div class="col-lg-6">
                                 <a asp-action="Index" class="btn btn-default">Back to List</a>
                             </div>
-
                             <div class="col-lg-6">
-                                <a asp-action="Edit" asp-route-id="@id" class="btn btn-success">Edit</a>
+                                <input type="submit" value="Delete" class="btn btn-danger" />
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </dl>
             </section>

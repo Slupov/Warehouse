@@ -12,13 +12,13 @@
     genericVM.Object = Model;
 
     genericVM.PropsToShow = new List<string>()
-{
-ReflectionHelpers.GetComplexPropName<Company>(x => x.Name),
-ReflectionHelpers.GetComplexPropName<Company>(x => x.IdentificationCode),
-ReflectionHelpers.GetComplexPropName<Company>(x => x.ContactsId),
-ReflectionHelpers.GetComplexPropName<Company>(x => x.OwnerName),
-ReflectionHelpers.GetComplexPropName<Company>(x => x.ApplicationSettingsId),
-};
+    {
+        ReflectionHelpers.GetComplexPropName<Company>(x => x.Name),
+        ReflectionHelpers.GetComplexPropName<Company>(x => x.IdentificationCode),
+        ReflectionHelpers.GetComplexPropName<Company>(x => x.ContactsId),
+        ReflectionHelpers.GetComplexPropName<Company>(x => x.OwnerName),
+        ReflectionHelpers.GetComplexPropName<Company>(x => x.ApplicationSettingsId),
+    };
 }
 
 @await Component.InvokeAsync(nameof(GenericDetailsViewViewComponent).Replace("ViewComponent", ""), genericVM)
