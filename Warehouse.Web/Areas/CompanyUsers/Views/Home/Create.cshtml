@@ -5,42 +5,48 @@
     ViewData["TitleDescription"] = "Here you can create a new user for your company.";
 }
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="User.UserName" class="control-label"></label>
-                <input asp-for="User.UserName" class="form-control" />
-                <span asp-validation-for="User.UserName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="User.Email" class="control-label"></label>
-                <input asp-for="User.Email" class="form-control" />
-                <span asp-validation-for="User.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="User.Company.Name" class="control-label"></label>
-                <input asp-for="User.Company.Name" class="form-control" />
-                <span asp-validation-for="User.Company.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="User.PhoneNumber" class="control-label"></label>
-                <input asp-for="User.PhoneNumber" class="form-control" />
-                <span asp-validation-for="User.PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserRoles" class="control-label"></label>
-                <input asp-for="UserRoles" class="form-control" />
-                <span asp-validation-for="UserRoles" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+<section class="section bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center p-0">
+                <form asp-action="Create" class="row">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group col-lg-12">
+                        <label asp-for="User.UserName" class="control-label"></label>
+                        <input asp-for="User.UserName" class="form-control"/>
+                        <span asp-validation-for="User.UserName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label asp-for="User.Email" class="control-label"></label>
+                        <input asp-for="User.Email" class="form-control"/>
+                        <span asp-validation-for="User.Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label asp-for="User.Company.Name" class="control-label"></label>
+                        <input asp-for="User.Company.Name" class="form-control"/>
+                        <span asp-validation-for="User.Company.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label asp-for="User.PhoneNumber" class="control-label"></label>
+                        <input asp-for="User.PhoneNumber" class="form-control"/>
+                         <span asp-validation-for="User.PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label asp-for="UserRoles" class="control-label"></label>
+                        <select asp-for="SelectedUserRoles" class="form-control" asp-items="Model.UserRoles"></select>
+                        <span asp-validation-for="UserRoles" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <a asp-action="Index" class="btn btn-default">Back to List</a>
+                    </div>
 
-<div>
-    <a asp-action="Index" asp-route-companyId="@Model.User.Company.Id">Back to List</a>
-</div>
+                    <div class="form-group col-lg-6">
+                        <input type="submit" value="Create" class="btn btn-primary"/>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

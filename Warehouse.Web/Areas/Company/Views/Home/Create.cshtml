@@ -5,53 +5,66 @@
     ViewData["TitleDescription"] = "Create your own company.";
 }
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <input asp-for="Company.IdentificationCode" class="form-control" />
-                <span asp-validation-for="Company.IdentificationCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input asp-for="Company.Name" class="form-control" readonly />
-                <span asp-validation-for="Company.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input asp-for="Company.OwnerName" class="form-control" />
-                <span asp-validation-for="Company.OwnerName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input asp-for="Company.Contacts.City" class="form-control" />
-                <span asp-validation-for="Company.Contacts.City" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input asp-for="Company.Contacts.Address" class="form-control" />
-                <span asp-validation-for="Company.Contacts.Address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input asp-for="Company.Contacts.Phone" class="form-control" />
-                <span asp-validation-for="Company.Contacts.Phone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input asp-for="Company.Contacts.Email" class="form-control" value="@Model.Company.Contacts.Email" />
-                <span asp-validation-for="Company.Contacts.Email" class="text-danger"></span>
-            </div>
+<section class="section bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center p-0">
+                <form asp-action="Create" enctype="multipart/form-data" class="row">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <input asp-for="Company.IdentificationCode" class="form-control" />
+                                <span asp-validation-for="Company.IdentificationCode" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <input asp-for="Company.Name" class="form-control" readonly />
+                                <span asp-validation-for="Company.Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <input asp-for="Company.OwnerName" class="form-control" />
+                                <span asp-validation-for="Company.OwnerName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="CompanyAvatar" class="control-label"></label>
-                <input asp-for="CompanyAvatar" class="form-control" />
-                <span asp-validation-for="CompanyAvatar" class="text-danger"></span>
-            </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <input asp-for="Company.Contacts.City" class="form-control col-lg-6" />
+                                <span asp-validation-for="Company.Contacts.City" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <input asp-for="Company.Contacts.Address" class="form-control col-lg-6" />
+                                <span asp-validation-for="Company.Contacts.Address" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <input asp-for="Company.Contacts.Phone" class="form-control col-lg-6" />
+                                <span asp-validation-for="Company.Contacts.Phone" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <input asp-for="Company.Contacts.Email" class="form-control col-lg-6" value="@Model.Company.Contacts.Email" />
+                                <span asp-validation-for="Company.Contacts.Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                    <div class="form-group col-lg-12">
+                        <label asp-for="CompanyAvatar" class="control-label"></label>
+                        <input asp-for="CompanyAvatar" class="form-control col-lg-12" />
+                        <span asp-validation-for="CompanyAvatar" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group col-lg-12">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
-</div>
+</section>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     <script type="text/javascript" src="~/js/companies/companies-create.js"></script>
 }

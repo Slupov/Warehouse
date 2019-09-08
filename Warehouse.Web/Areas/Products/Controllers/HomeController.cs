@@ -24,8 +24,8 @@ namespace Warehouse.Web.Areas.Products.Controllers
             UserManager<ApplicationUser> users)
         {
             _mediaTransferer = mediaTransferer;
-            _products        = products;
-            _users           = users;
+            _products = products;
+            _users = users;
         }
 
         // GET: Products/Home
@@ -33,14 +33,17 @@ namespace Warehouse.Web.Areas.Products.Controllers
         {
             int companyId = (await _users.GetUserAsync(User)).Company.Id;
 
-            var vm =
-                (await _products.GetListAsync(x => x.Company.Id == companyId))
-                .Select(x => new ProductIndexViewModel()
-                {
-                    Product = x,
-                    ThumbnailPath = (_mediaTransferer.GetProductPhotosFilesRelative(x).GetAwaiter().GetResult())
-                        .FirstOrDefault()
-                });
+            var currProducts =
+                await _products.GetListAsync(x => x.Company.Id == companyId);
+
+            var vm = (currProducts).Select(x => new ProductIndexViewModel()
+            {
+                Product = x,
+                ThumbnailPath = (_mediaTransferer
+                        .GetProductPhotosFilesRelative(x).GetAwaiter()
+                        .GetResult())
+                    .FirstOrDefault()
+            });
 
             return View(vm);
         }
@@ -53,7 +56,8 @@ namespace Warehouse.Web.Areas.Products.Controllers
                 return NotFound();
             }
 
-            var product = await _products.GetSingleOrDefaultAsync(m => m.Id == id);
+            var product =
+                await _products.GetSingleOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -70,15 +74,16 @@ namespace Warehouse.Web.Areas.Products.Controllers
             return View(vm);
         }
 
-        private async Task<ProductEditCreateViewModel> GenerateProductCreateEditViewModel()
+        private async Task<ProductEditCreateViewModel>
+            GenerateProductCreateEditViewModel()
         {
             var vm = new ProductEditCreateViewModel();
             vm.Product = new Product();
             vm.Product.Company = (await _users.GetUserAsync(User)).Company;
 
-            vm.Places                = new List<SelectListItem>();
-            vm.MeasureUnits          = new List<SelectListItem>();
-            vm.ProductGroups         = new List<SelectListItem>();
+            vm.Places = new List<SelectListItem>();
+            vm.MeasureUnits = new List<SelectListItem>();
+            vm.ProductGroups = new List<SelectListItem>();
             vm.OutProductPhotosPaths = new List<string>();
 
             var company = (await _users.GetUserAsync(User)).Company;
@@ -140,7 +145,8 @@ namespace Warehouse.Web.Areas.Products.Controllers
                 return NotFound();
             }
 
-            var product = await _products.GetSingleOrDefaultAsync(x=> x.Id == id);
+            var product =
+                await _products.GetSingleOrDefaultAsync(x => x.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -152,7 +158,8 @@ namespace Warehouse.Web.Areas.Products.Controllers
             //delete
             await _mediaTransferer.GetProductPhotosFiles(product);
 
-            vm.OutProductPhotosPaths = (await _mediaTransferer.GetProductPhotosFilesRelative(product));
+            vm.OutProductPhotosPaths =
+                (await _mediaTransferer.GetProductPhotosFilesRelative(product));
 
             return View(vm);
         }
@@ -186,8 +193,10 @@ namespace Warehouse.Web.Areas.Products.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(product);
         }
 
@@ -199,7 +208,8 @@ namespace Warehouse.Web.Areas.Products.Controllers
                 return NotFound();
             }
 
-            var product = await _products.GetSingleOrDefaultAsync(m => m.Id == id);
+            var product =
+                await _products.GetSingleOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -213,7 +223,8 @@ namespace Warehouse.Web.Areas.Products.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product   = await _products.GetSingleOrDefaultAsync(x => x.Id == id);
+            var product =
+                await _products.GetSingleOrDefaultAsync(x => x.Id == id);
             var companyId = product.Company.Id;
 
             _products.Remove(product);

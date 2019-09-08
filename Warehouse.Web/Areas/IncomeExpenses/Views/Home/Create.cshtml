@@ -1,33 +1,22 @@
 ﻿@using Warehouse.Data.Enums
+@using Warehouse.Data.Models
+@using Warehouse.Web.Infrastructure
+@using Warehouse.Web.Models.Components
+@using Warehouse.Web.Views.Shared.Components
 @model Warehouse.Data.Models.IncomeExpense
 
 @{
     ViewData["Title"] = "Create an Income/Expense";
     ViewData["TitleDescription"] = "Here you can create a new income or expense.";
+
+    GenericViewObjectModel genericVM = new GenericViewObjectModel();
+    genericVM.Object = new IncomeExpense();
+
+    genericVM.PropsToShow = new List<string>()
+    {
+        ReflectionHelpers.GetComplexPropName<IncomeExpense>(x => x.Name),
+        ReflectionHelpers.GetComplexPropName<IncomeExpense>(x => x.IncomeExpenseType)
+    };
 }
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IncomeExpenseType" class="control-label"></label>
-                <select asp-for="IncomeExpenseType" asp-items="Html.GetEnumSelectList(typeof (IncomeExpenseType))" class="form-control"></select>
-                <span asp-validation-for="IncomeExpenseType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+@await Component.InvokeAsync(nameof(GenericCreateViewViewComponent).Replace("ViewComponent", ""), genericVM)

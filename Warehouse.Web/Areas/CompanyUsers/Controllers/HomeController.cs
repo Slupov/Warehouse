@@ -60,7 +60,20 @@ namespace Warehouse.Web.Areas.CompanyUsers.Controllers
         public async Task<IActionResult> Create()
         {
             var vm = new CompanyUsersCreateEditViewModel();
-            vm.User = (await _userManager.GetUserAsync(User));
+
+            var currUser = await _userManager.GetUserAsync(User);
+
+            vm.User = new ApplicationUser();
+            vm.User.Company = currUser.Company;
+
+            var registeredRoles = _roleManager.Roles.Select(c => new SelectListItem
+            {
+                Value = c.Name,
+                Text = c.Name,
+                Selected = false
+            }).ToList();
+
+            vm.UserRoles = registeredRoles;
 
             return View(vm);
         }
