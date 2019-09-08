@@ -6,6 +6,14 @@
     ViewData["TitleDescription"] = "Here you can see a list of all users in your company.";
 }
 
+@section Styles
+{
+    <style type="text/css">
+        .fa-sm{
+            font-size: 10px;
+        }
+    </style>
+}
 <br/>
 
 <div class="container">
@@ -34,7 +42,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.UserRoles)
                 </th>
-                <th></th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -64,9 +72,17 @@
                         <td>
                             @Html.DisplayFor(modelItem => currRoles)
                         </td>
+                        
                         <td>
-                            <a asp-action="Edit" asp-route-id="@currUsr.Id">Edit</a>
-                            <a asp-action="Details" asp-route-id="@currUsr.Id">Details</a>
+                            <a asp-action="Edit" asp-route-id="@currUsr.Id" class="btn btn-info">
+                                <i class="fa fa-edit fa-sm"></i>
+                            </a>
+                            <a asp-action="Details" asp-route-id="@currUsr.Id" class="btn btn-default">
+                                <i class="fa fa-info"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@currUsr.Id" class="btn btn-danger">
+                                <i class="fa fa-trash"></i>
+                            </a>
                         </td>
                     </tr>
                 }

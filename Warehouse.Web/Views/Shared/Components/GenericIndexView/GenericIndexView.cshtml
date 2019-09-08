@@ -16,45 +16,52 @@
 
     <table class="table">
         <thead>
+        <tr>
+            @foreach (var propName in Model.PropsToShow)
+            {
+                //get property
+                var prop = collectionElementType.GetComplexProperty(propName);
+
+                <th>
+                    @* Get display name attribute value *@
+                    @prop.GetDisplayNameValue()
+                </th>
+            }
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (object obj in modelAsEnum)
+        {
+            var id = obj.GetType().GetProperty("Id").GetValue(obj);
+
             <tr>
                 @foreach (var propName in Model.PropsToShow)
                 {
                     //get property
-                    var prop = collectionElementType.GetComplexProperty(propName);
+                    var propValue = ReflectionHelpers.GetPropertyValue(obj, propName);
 
-                    <th>
-                        @* Get display name attribute value *@
-                        @prop.GetDisplayNameValue()
-                    </th>
-                }
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (object obj in modelAsEnum)
-            {
-                var id = obj.GetType().GetProperty("Id").GetValue(obj);
-
-                <tr>
-                    @foreach (var propName in Model.PropsToShow)
-                    {
-                        //get property
-                        var propValue = ReflectionHelpers.GetPropertyValue(obj, propName);
-
-                        <td>
-                            @propValue
-                            @* @Html.DisplayFor(mi => propValue); *@
-                        </td>
-                    }
-                    
                     <td>
-                        <a asp-action="Edit" asp-route-id="@id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@id">Delete</a>
+                        @propValue
+                        @* @Html.DisplayFor(mi => propValue); *@
                     </td>
+                }
 
-                </tr>
-            }
+                <td>
+                    <a asp-action="Edit" asp-route-id="@id" class="btn btn-info">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a asp-action="Details" asp-route-id="@id" class="btn btn-default">
+                        <i class="fa fa-info"></i>
+                    </a>
+
+
+                    <a asp-action="Delete" asp-route-id="@id" class="btn btn-danger">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
 </div>
